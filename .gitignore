@@ -14,7 +14,7 @@ target/
 .idea/workspace.xml
 .gitignore
 .idea/
-
+*.xml
 
 ### Eclipse ###
 .apt_generated
