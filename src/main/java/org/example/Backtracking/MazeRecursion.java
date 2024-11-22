@@ -1,4 +1,4 @@
-package com.thealgorithms.backtracking;
+package org.example.Backtracking;
 
 /**
  * This class contains methods to solve a maze using recursive backtracking.

@@ -1,4 +1,4 @@
-package com.thealgorithms.backtracking;
+package org.example.Backtracking;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +49,8 @@ public final class SubsequenceFinder {
         backtrack(sequence, currentSubsequence, index + 1, allSubSequences);
         currentSubsequence.add(sequence.get(index));
         backtrack(sequence, currentSubsequence, index + 1, allSubSequences);
-        currentSubsequence.removeLast();
+        currentSubsequence.remove(currentSubsequence.size() - 1); // Remove the last element
     }
+
 }
+

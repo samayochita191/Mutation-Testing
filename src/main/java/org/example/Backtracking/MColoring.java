@@ -1,96 +1,70 @@
-package com.thealgorithms.backtracking;
+package org.example.Backtracking;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
+import java.util.Arrays;
 
-/**
- * Node class represents a graph node. Each node is associated with a color
- * (initially 1) and contains a set of edges representing its adjacent nodes.
- *
- * @author Bama Charan Chhandogi (https://github.com/BamaCharanChhandogi)
- */
-class Node {
-    int color = 1; // Initial color for each node
-    Set<Integer> edges = new HashSet<Integer>(); // Set of edges representing adjacent nodes
-}
+public class MColoring {
 
-/**
- * MColoring class solves the M-Coloring problem where the goal is to determine
- * if it's possible to color a graph using at most M colors such that no two
- * adjacent nodes have the same color.
- */
-public final class MColoring {
+    // Function to check if it's safe to assign color to vertex
+    public static boolean isSafe(int v, boolean[][] graph, int[] color, int c) {
+        for (int i = 0; i < graph.length; i++) {
+            // If adjacent vertex has the same color, return false
+            if (graph[v][i] && color[i] == c) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-    private MColoring() {
-    } // Prevent instantiation of utility class
-
-    /**
-     * Determines whether it is possible to color the graph using at most M colors.
-     *
-     * @param nodes List of nodes representing the graph.
-     * @param n     The total number of nodes in the graph.
-     * @param m     The maximum number of allowed colors.
-     * @return true if the graph can be colored using M colors, false otherwise.
-     */
-    static boolean isColoringPossible(ArrayList<Node> nodes, int n, int m) {
-
-        // Visited array keeps track of whether each node has been processed.
-        ArrayList<Integer> visited = new ArrayList<Integer>();
-        for (int i = 0; i < n + 1; i++) {
-            visited.add(0); // Initialize all nodes as unvisited (0)
+    // Backtracking function to solve m-coloring problem
+    public static boolean graphColoring(boolean[][] graph, int m, int[] color, int v) {
+        // If all vertices are assigned a color then return true
+        if (v == graph.length) {
+            return true;
         }
 
-        // The number of colors used so far (initially set to 1, since all nodes
-        // start with color 1).
-        int maxColors = 1;
+        // Try different colors for vertex v
+        for (int c = 1; c <= m; c++) {
+            // Check if it's safe to color vertex v with color c
+            if (isSafe(v, graph, color, c)) {
+                color[v] = c; // Assign color c to vertex v
 
-        // Loop through all the nodes to ensure every node is visited, in case the
-        // graph is disconnected.
-        for (int sv = 1; sv <= n; sv++) {
-            if (visited.get(sv) > 0) {
-                continue; // Skip nodes that are already visited
-            }
-
-            // If the node is unvisited, mark it as visited and add it to the queue for BFS.
-            visited.set(sv, 1);
-            Queue<Integer> q = new LinkedList<>();
-            q.add(sv);
-
-            // Perform BFS to process all nodes and their adjacent nodes
-            while (q.size() != 0) {
-                int top = q.peek(); // Get the current node from the queue
-                q.remove();
-
-                // Check all adjacent nodes of the current node
-                for (int it : nodes.get(top).edges) {
-
-                    // If the adjacent node has the same color as the current node, increment its
-                    // color to avoid conflict.
-                    if (nodes.get(top).color == nodes.get(it).color) {
-                        nodes.get(it).color += 1;
-                    }
-
-                    // Keep track of the maximum number of colors used so far
-                    maxColors = Math.max(maxColors, Math.max(nodes.get(top).color, nodes.get(it).color));
-
-                    // If the number of colors used exceeds the allowed limit M, return false.
-                    if (maxColors > m) {
-                        return false;
-                    }
-
-                    // If the adjacent node hasn't been visited yet, mark it as visited and add it
-                    // to the queue for further processing.
-                    if (visited.get(it) == 0) {
-                        visited.set(it, 1);
-                        q.add(it);
-                    }
+                // Recursively assign colors to the next vertices
+                if (graphColoring(graph, m, color, v + 1)) {
+                    return true;
                 }
+
+                // If assigning color c doesn't lead to a solution, backtrack
+                color[v] = 0;
             }
         }
 
-        return true; // Possible to color the entire graph with M or fewer colors.
+        // If no color can be assigned to this vertex then return false
+        return false;
+    }
+
+    // Function to solve the m-coloring problem
+    public static boolean solveMColoring(boolean[][] graph, int m) {
+        int[] color = new int[graph.length];
+        Arrays.fill(color, 0);
+
+        // Start solving the problem from vertex 0
+        return graphColoring(graph, m, color, 0);
+    }
+
+    public static void main(String[] args) {
+        // Example graph
+        boolean[][] graph = {
+                {false, true, true, false},
+                {true, false, true, true},
+                {true, true, false, true},
+                {false, true, true, false}
+        };
+        int m = 3;  // Number of colors
+
+        if (solveMColoring(graph, m)) {
+            System.out.println("Solution exists");
+        } else {
+            System.out.println("No solution exists");
+        }
     }
 }

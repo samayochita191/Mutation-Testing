@@ -1,4 +1,4 @@
-package com.thealgorithms.backtracking;
+package org.example.Backtracking;
 
 /**
  * Problem Statement:

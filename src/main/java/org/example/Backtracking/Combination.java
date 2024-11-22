@@ -1,4 +1,4 @@
-package com.thealgorithms.backtracking;
+package org.example.Backtracking;
 
 import java.util.Arrays;
 import java.util.Collections;

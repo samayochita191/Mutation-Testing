@@ -1,4 +1,4 @@
-package com.thealgorithms.backtracking;
+package org.example.Backtracking;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -21,7 +21,7 @@ public final class KnightsTour {
     }
 
     // The size of the chess board (12x12 grid, with 2 extra rows/columns as a buffer around a 8x8 area)
-    private static final int BASE = 12;
+    public static final int BASE = 12;
 
     // Possible moves for a knight in chess
     private static final int[][] MOVES = {
@@ -36,7 +36,7 @@ public final class KnightsTour {
     };
 
     // Chess grid representing the board
-    static int[][] grid;
+    public static int[][] grid;
 
     // Total number of cells the knight needs to visit
     static int total;
@@ -66,7 +66,7 @@ public final class KnightsTour {
      * @param count  The current move number
      * @return True if a solution is found, False otherwise
      */
-    static boolean solve(int row, int column, int count) {
+    public static boolean solve(int row, int column, int count) {
         if (count > total) {
             return true;
         }
