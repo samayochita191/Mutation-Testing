@@ -5,34 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="aca16722-6cbb-4b6a-9bc1-30f5f5e407a5" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/ActivitySelectionTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/ActivitySelection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/ActivitySelection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/BandwidthAllocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/BandwidthAllocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/BinaryAddition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/BinaryAddition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/CoinChange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/CoinChange.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/DigitSeparation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/DigitSeparation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/EgyptianFraction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/EgyptianFraction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/FractionalKnapsack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/FractionalKnapsack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/GaleShapley.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/GaleShapley.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/JobSequencing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/JobSequencing.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/KCenters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/KCenters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/MergeIntervals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/MergeIntervals.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/MinimizingLateness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/MinimizingLateness.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/MinimumWaitingTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/MinimumWaitingTime.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/OptimalFileMerging.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/OptimalFileMerging.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/greedyalgorithms/StockProfitCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/StockProfitCalculator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2pAWBTFIE4EjfwH5KUQ8wbUQo8Z" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "sam",
+    "last_opened_file_path": "/Users/samayochita/IIITB/software testing/Mutation-Testing",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "onboarding.tips.debug.path": "/Users/samayochita/IIITB/software testing/Mutation Testing/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -45,21 +80,16 @@
       <option name="presentableId" value="Default" />
       <updated>1732117562918</updated>
       <workItem from="1732117564335" duration="2703000" />
+      <workItem from="1732209227070" duration="2294000" />
+      <workItem from="1732264718608" duration="3299000" />
+      <workItem from="1732276146514" duration="11506000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>15</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>

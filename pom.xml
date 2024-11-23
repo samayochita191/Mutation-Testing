@@ -13,12 +13,48 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
+            <!-- Maven Surefire Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <!-- PIT Mutation Testing Plugin -->
             <plugin>
                 <groupId>org.pitest</groupId>
                 <artifactId>pitest-maven</artifactId>
-                <version>LATEST</version>
+                <version>1.7.3</version>
+                <configuration>
+                    <verbose>true</verbose> <!-- Enable detailed logging -->
+                    <targetClasses>org.example.*</targetClasses> <!-- Classes to mutate -->
+                    <targetTests>org.example.*Test</targetTests> <!-- Test classes -->
+                    <mutators>DEFAULTS</mutators> <!-- Use default mutation operators -->
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>0.15</version>
+                        <scope>runtime</scope> <!-- Corrected scope -->
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
