@@ -16,6 +16,13 @@ target/
 .idea/
 *.xml
 
+# User-specific stuff:
+.idea/misc.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+
 ### Eclipse ###
 .apt_generated
 .classpath
