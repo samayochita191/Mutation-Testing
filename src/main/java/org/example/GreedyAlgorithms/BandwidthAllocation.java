@@ -1,4 +1,4 @@
-package com.thealgorithms.greedyalgorithms;
+package org.example.GreedyAlgorithms;
 
 import java.util.Arrays;
 
@@ -13,10 +13,7 @@ import java.util.Arrays;
  *
  * @author Hardvan
  */
-public final class BandwidthAllocation {
-    private BandwidthAllocation() {
-    }
-
+public class BandwidthAllocation {
     /**
      * Allocates bandwidth to maximize value.
      * Steps:
@@ -30,26 +27,36 @@ public final class BandwidthAllocation {
      * @param users     array of user demands
      * @param values    array of values associated with each user's demand
      * @return the maximum value achievable
+     * @throws IllegalArgumentException if users and values arrays are of different lengths
      */
-    public static int maxValue(int bandwidth, int[] users, int[] values) {
+    public static double maxValue(int bandwidth, int[] users, int[] values) {
+        if (users.length != values.length) {
+            throw new IllegalArgumentException("Users and values arrays must have the same length.");
+        }
+
         int n = users.length;
         double[][] ratio = new double[n][2]; // {index, ratio}
 
+        // Calculate value-to-demand ratios
         for (int i = 0; i < n; i++) {
             ratio[i][0] = i;
             ratio[i][1] = (double) values[i] / users[i];
         }
 
+        // Sort by value-to-demand ratio in descending order
         Arrays.sort(ratio, (a, b) -> Double.compare(b[1], a[1]));
 
-        int maxValue = 0;
+        double maxValue = 0;
+
+        // Allocate bandwidth
         for (int i = 0; i < n; i++) {
             int index = (int) ratio[i][0];
             if (bandwidth >= users[index]) {
                 maxValue += values[index];
                 bandwidth -= users[index];
             } else {
-                maxValue += (int) (ratio[i][1] * bandwidth);
+                // Allocate fraction of the demand
+                maxValue += values[index] * ((double) bandwidth / users[index]);
                 break;
             }
         }

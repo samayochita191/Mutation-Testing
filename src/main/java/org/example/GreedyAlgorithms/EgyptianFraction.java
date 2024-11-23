@@ -11,10 +11,7 @@ import java.util.List;
  *
  * @author Hardvan
  */
-public final class EgyptianFraction {
-    private EgyptianFraction() {
-    }
-
+public class EgyptianFraction {
     /**
      * Calculates the Egyptian Fraction representation of a given fraction.
      *

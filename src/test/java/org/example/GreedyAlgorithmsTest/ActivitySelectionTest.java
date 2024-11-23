@@ -94,5 +94,34 @@ class ActivitySelectionTest {
         ArrayList<Integer> result = ActivitySelection.activitySelection(startTimes, endTimes);
         assertEquals(new ArrayList<>(List.of(0)), result);
     }
+    @Test
+    void testBoundaryCondition() {
+        int[] startTimes = {Integer.MAX_VALUE - 1};
+        int[] endTimes = {Integer.MAX_VALUE};
+        ArrayList<Integer> expected = new ArrayList<>(Arrays.asList(0));
+        assertEquals(expected, ActivitySelection.activitySelection(startTimes, endTimes));
+    }
+    @Test
+    void testLargeInput() {
+        int[] startTimes = new int[1000];
+        int[] endTimes = new int[1000];
+        for (int i = 0; i < 1000; i++) {
+            startTimes[i] = i;
+            endTimes[i] = i + 1;
+        }
+        ArrayList<Integer> expected = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            expected.add(i);
+        }
+        assertEquals(expected, ActivitySelection.activitySelection(startTimes, endTimes));
+    }
+    @Test
+    void testCompleteOverlap() {
+        int[] startTimes = {1, 1, 1};
+        int[] endTimes = {5, 5, 5};
+        ArrayList<Integer> expected = new ArrayList<>(Arrays.asList(0));
+        assertEquals(expected, ActivitySelection.activitySelection(startTimes, endTimes));
+    }
+
 
 }

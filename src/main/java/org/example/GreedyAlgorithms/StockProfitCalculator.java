@@ -1,4 +1,4 @@
-package com.thealgorithms.greedyalgorithms;
+package org.example.GreedyAlgorithms;
 
 /**
  * The StockProfitCalculator class provides a method to calculate the maximum profit

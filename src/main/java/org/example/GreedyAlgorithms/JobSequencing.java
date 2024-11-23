@@ -5,23 +5,24 @@ import java.util.Arrays;
 
 // Problem Link: https://en.wikipedia.org/wiki/Job-shop_scheduling
 
-public final class JobSequencing {
-    private JobSequencing() {
-    }
+public class JobSequencing {
 
     // Define a Job class that implements Comparable for sorting by profit in descending order
-    static class Job implements Comparable<Job> {
+    public static class Job implements Comparable<Job> {
         char id;
         int deadline;
         int profit;
 
-        // Compare jobs by profit in descending order
+        // Compare jobs by profit in descending order and by deadline in ascending order if profits are the same
         @Override
         public int compareTo(Job otherJob) {
-            return otherJob.profit - this.profit;
+            if (this.profit == otherJob.profit) {
+                return this.deadline - otherJob.deadline; // Ascending order by deadline
+            }
+            return otherJob.profit - this.profit; // Descending order by profit
         }
 
-        Job(char id, int deadline, int profit) {
+        public Job(char id, int deadline, int profit) {
             this.id = id;
             this.deadline = deadline;
             this.profit = profit;
@@ -34,6 +35,9 @@ public final class JobSequencing {
         Arrays.fill(slots, Boolean.FALSE);
 
         int[] result = new int[size];
+
+        // Sort jobs by profit and deadline
+        jobs.sort(null);
 
         // Iterate through jobs to find the optimal job sequence
         for (int i = 0; i < size; i++) {
@@ -49,18 +53,20 @@ public final class JobSequencing {
         // Create a StringBuilder to build the job sequence string
         StringBuilder jobSequenceBuilder = new StringBuilder();
         jobSequenceBuilder.append("Job Sequence: ");
+        boolean hasJob = false;
         for (int i = 0; i < jobs.size(); i++) {
             if (slots[i]) {
                 jobSequenceBuilder.append(jobs.get(result[i]).id).append(" -> ");
+                hasJob = true;
             }
         }
 
         // Remove the trailing " -> " from the job sequence
-        if (jobSequenceBuilder.length() >= 4) {
+        if (hasJob && jobSequenceBuilder.length() >= 4) {
             jobSequenceBuilder.setLength(jobSequenceBuilder.length() - 4);
         }
 
         // Return the job sequence as a string
-        return jobSequenceBuilder.toString();
+        return hasJob ? jobSequenceBuilder.toString() : "Job Sequence: ";
     }
 }

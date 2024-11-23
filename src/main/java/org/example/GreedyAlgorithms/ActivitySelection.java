@@ -6,11 +6,7 @@ import java.util.Comparator;
 
 // Problem Link: https://en.wikipedia.org/wiki/Activity_selection_problem
 
-public final class ActivitySelection {
-
-    // Private constructor to prevent instantiation of the utility class
-    private ActivitySelection() {
-    }
+public class ActivitySelection {
 
     /**
      * Function to perform activity selection using a greedy approach.

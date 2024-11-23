@@ -15,9 +15,6 @@ import java.util.Comparator;
  * Problem Link: https://en.wikipedia.org/wiki/Continuous_knapsack_problem
  */
 public final class FractionalKnapsack {
-    private FractionalKnapsack() {
-    }
-
     /**
      * Computes the maximum value that can be accommodated in a knapsack of a given capacity.
      *

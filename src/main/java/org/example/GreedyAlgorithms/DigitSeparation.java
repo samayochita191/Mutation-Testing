@@ -8,8 +8,6 @@ import java.util.List;
  * This class provides methods to separate the digits of a large positive number into a list.
  */
 public class DigitSeparation {
-    public DigitSeparation() {
-    }
     /**
      * Separates the digits of a large positive number into a list in reverse order.
      * @param largeNumber The large number to separate digits from.
