@@ -7,10 +7,7 @@ package org.example.GreedyAlgorithms;
  *
  * @author Hardvan
  */
-public final class StockProfitCalculator {
-    private StockProfitCalculator() {
-    }
-
+public class StockProfitCalculator {
     /**
      * Calculates the maximum profit from a list of stock prices.
      *

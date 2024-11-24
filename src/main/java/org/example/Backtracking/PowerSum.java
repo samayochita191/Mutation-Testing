@@ -21,8 +21,11 @@ public class PowerSum {
      */
     public int powSum(int targetSum, int power) {
         // Special case: when both targetSum and power are zero
-        if (targetSum == 0 && power == 0) {
-            return 1; // by convention, one way to sum to zero: use nothing
+        if (targetSum == 0) {
+            return 1; // There's exactly one way to sum to zero: use nothing.
+        }
+        if (power == 0) {
+            return targetSum == 0 ? 1 : 0; // If power is zero, check if targetSum is zero.
         }
         return sumRecursive(targetSum, power, 1, 0);
     }
@@ -37,6 +40,10 @@ public class PowerSum {
      * @return The number of valid combinations
      */
     private int sumRecursive(int remainingSum, int power, int currentNumber, int currentSum) {
+        if (power == 0) {
+            return remainingSum == 0 ? 1 : 0; // If power is 0, just check if remainingSum is 0
+        }
+
         int newSum = currentSum + (int) Math.pow(currentNumber, power);
 
         if (newSum == remainingSum) {
@@ -48,4 +55,5 @@ public class PowerSum {
 
         return sumRecursive(remainingSum, power, currentNumber + 1, newSum) + sumRecursive(remainingSum, power, currentNumber + 1, currentSum);
     }
+
 }

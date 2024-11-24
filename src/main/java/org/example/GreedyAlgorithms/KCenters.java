@@ -11,10 +11,7 @@ import java.util.Arrays;
  *
  * @author Hardvan
  */
-public final class KCenters {
-    private KCenters() {
-    }
-
+public class KCenters {
     /**
      * Finds the maximum distance to the nearest center given k centers.
      * Steps:

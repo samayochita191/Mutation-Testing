@@ -17,10 +17,7 @@ import java.util.PriorityQueue;
  *
  * @author Hardvan
  */
-public final class OptimalFileMerging {
-    private OptimalFileMerging() {
-    }
-
+public class OptimalFileMerging {
     /**
      * Calculates the minimum cost to merge all files.
      * Steps:
@@ -33,6 +30,16 @@ public final class OptimalFileMerging {
      * @return the minimum cost to merge the files
      */
     public static int minMergeCost(int[] files) {
+        if (files == null || files.length == 0) {
+            return 0; // No cost for empty or null array
+        }
+
+        for (int file : files) {
+            if (file < 0) {
+                throw new IllegalArgumentException("File sizes must be non-negative.");
+            }
+        }
+
         PriorityQueue<Integer> minHeap = new PriorityQueue<>();
         for (int file : files) {
             minHeap.add(file);
@@ -49,4 +56,5 @@ public final class OptimalFileMerging {
         }
         return totalCost;
     }
+
 }

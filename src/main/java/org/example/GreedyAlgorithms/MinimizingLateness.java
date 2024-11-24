@@ -2,14 +2,12 @@ package org.example.GreedyAlgorithms;
 
 import java.util.Arrays;
 
-public final class MinimizingLateness {
-    private MinimizingLateness() {
-    }
+public class MinimizingLateness {
 
     public static class Job {
         String jobName;
-        int startTime = 0;
-        int lateness = 0;
+        public int startTime = 0;
+        public int lateness = 0;
         int processingTime;
         int deadline;
 
@@ -29,7 +27,7 @@ public final class MinimizingLateness {
         }
     }
 
-    static void calculateLateness(Job... jobs) {
+    public static void calculateLateness(Job... jobs) {
 
         // sort the jobs based on their deadline
         Arrays.sort(jobs, (a, b) -> a.deadline - b.deadline);

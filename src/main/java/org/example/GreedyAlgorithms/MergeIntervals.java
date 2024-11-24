@@ -12,13 +12,8 @@ import java.util.List;
  * intervals
  * that cover all the intervals in the input.
  */
-public final class MergeIntervals {
+public class MergeIntervals {
 
-    /**
-     * Private constructor to prevent instantiation of this utility class.
-     */
-    private MergeIntervals() {
-    }
 
     /**
      * Merges overlapping intervals from the given array of intervals.

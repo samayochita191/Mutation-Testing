@@ -19,10 +19,7 @@ import java.util.Map;
  * Input String: "JavaPythonPythonJava"
  * Output: false
  */
-public final class WordPatternMatcher {
-    private WordPatternMatcher() {
-    }
-
+public class WordPatternMatcher {
     /**
      * Determines if the given pattern matches the input string using backtracking.
      *

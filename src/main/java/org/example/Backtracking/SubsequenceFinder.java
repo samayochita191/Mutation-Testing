@@ -6,10 +6,7 @@ import java.util.List;
 /**
  * Class generates all subsequences for a given list of elements using backtracking
  */
-public final class SubsequenceFinder {
-    private SubsequenceFinder() {
-    }
-
+public class SubsequenceFinder {
     /**
      * Find all subsequences of given list using backtracking
      *

@@ -8,10 +8,7 @@ import java.util.Arrays;
  *
  * @author Hardvan
  */
-public final class MinimumWaitingTime {
-    private MinimumWaitingTime() {
-    }
-
+public class MinimumWaitingTime {
     /**
      * Calculates the minimum waiting time for a list of queries.
      * The function sorts the queries in non-decreasing order and then calculates
