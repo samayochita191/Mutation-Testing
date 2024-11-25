@@ -6,29 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aca16722-6cbb-4b6a-9bc1-30f5f5e407a5" name="Changes" comment="added greedy test files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Backtracking/WordPatternMatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Backtracking/WordPatternMatcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Backtracking/WordSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Backtracking/WordSearch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/JobSequencing.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/JobSequencing.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/MinimizingLateness.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/MinimizingLateness.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/PowerSumTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/PowerSumTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/SubsequenceFinderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/SubsequenceFinderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/WordPatternMatcherTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/WordPatternMatcherTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/WordSearchTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/WordSearchTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/ActivitySelectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/ActivitySelectionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/BandwidthAllocationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/BandwidthAllocationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/BinaryAdditionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/BinaryAdditionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/CoinChangeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/CoinChangeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/DigitSeparationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/DigitSeparationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/EgyptianFractionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/EgyptianFractionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/FractionalKnapsackTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/FractionalKnapsackTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/GaleShapleyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/GaleShapleyTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/JobSequencingTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/JobSequencingTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/KCentersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/KCentersTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/MergeIntervalsTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/MergeIntervalsTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/MinimizingLatenessTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/MinimizingLatenessTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/MinimumWaitingTimeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/MinimumWaitingTimeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/OptimalFileMergingTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/OptimalFileMergingTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/StockProfitCalculatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/StockProfitCalculatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
