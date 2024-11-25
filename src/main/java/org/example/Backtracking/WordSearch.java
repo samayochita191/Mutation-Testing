@@ -4,9 +4,9 @@ package org.example.Backtracking;
 public class WordSearch {
     private final int[] dx = {0, 0, 1, -1};
     private final int[] dy = {1, -1, 0, 0};
-    private boolean[][] visited;
-    private char[][] board;
-    private String word;
+    public boolean[][] visited;
+    public char[][] board;
+    public String word;
 
 
     private boolean isValid(int x, int y) {
@@ -51,4 +51,5 @@ public class WordSearch {
         }
         return false;
     }
+
 }

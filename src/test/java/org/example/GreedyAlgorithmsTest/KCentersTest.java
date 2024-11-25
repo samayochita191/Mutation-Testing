@@ -1,6 +1,9 @@
 package org.example.GreedyAlgorithmsTest;
 import org.example.GreedyAlgorithms.KCenters;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class KCentersTest {
@@ -177,4 +180,146 @@ class KCentersTest {
         // be selected. If the boundary condition is changed incorrectly, the result might vary.
         assertEquals(20, result);
     }
+    // Test cases for mutation operators:
+
+    @Test
+    public void testMutation_IPVR() {
+        int[][] distances = {
+                {0, 2, 3, 4},
+                {2, 0, 1, 3},
+                {3, 1, 0, 2},
+                {4, 3, 2, 0}
+        };
+        int k = 2;
+        // Mutation IVPR: Replace 'distances[0][i]' with 'distances[1][i]'
+        // (This changes the logic of how we calculate maxDist)
+        int result = mutated_IVPR(distances, k);
+        // This will give an incorrect output compared to the original
+        assertNotEquals(3, result);
+    }
+    private int mutated_IVPR(int[][] distances, int k) {
+        int n = distances.length;
+        boolean[] selected = new boolean[n];
+        int[] maxDist = new int[n];
+
+        Arrays.fill(maxDist, Integer.MAX_VALUE);
+
+        selected[0] = true;
+        for (int i = 1; i < n; i++) {
+            maxDist[i] = Math.min(maxDist[i], distances[1][i]); // IVPR Mutation here
+        }
+
+        for (int centers = 1; centers < k; centers++) {
+            int farthest = -1;
+            for (int i = 0; i < n; i++) {
+                if (!selected[i] && (farthest == -1 || maxDist[i] > maxDist[farthest])) {
+                    farthest = i;
+                }
+            }
+            selected[farthest] = true;
+            for (int i = 0; i < n; i++) {
+                maxDist[i] = Math.min(maxDist[i], distances[farthest][i]);
+            }
+        }
+
+        int result = 0;
+        for (int dist : maxDist) {
+            result = Math.max(result, dist);
+        }
+        return result;
+    }
+    @Test
+    public void testMutation_IUOI() {
+        int[][] distances = {
+                {0, 2, 3, 4},
+                {2, 0, 1, 3},
+                {3, 1, 0, 2},
+                {4, 3, 2, 0}
+        };
+        int k = 2;
+        // Mutation IUOI: Add a unary minus in the maxDist[i] calculation
+        int result = mutated_IUOI(distances, k);
+        // This will cause incorrect behavior by modifying the way maxDist is updated
+        assertNotEquals(3, result);
+    }
+
+    private int mutated_IUOI(int[][] distances, int k) {
+        int n = distances.length;
+        boolean[] selected = new boolean[n];
+        int[] maxDist = new int[n];
+
+        Arrays.fill(maxDist, Integer.MAX_VALUE);
+
+        selected[0] = true;
+        for (int i = 1; i < n; i++) {
+            maxDist[i] = Math.min(maxDist[i], -distances[0][i]); // IUOI Mutation here (negating distance)
+        }
+
+        for (int centers = 1; centers < k; centers++) {
+            int farthest = -1;
+            for (int i = 0; i < n; i++) {
+                if (!selected[i] && (farthest == -1 || maxDist[i] > maxDist[farthest])) {
+                    farthest = i;
+                }
+            }
+            selected[farthest] = true;
+            for (int i = 0; i < n; i++) {
+                maxDist[i] = Math.min(maxDist[i], distances[farthest][i]);
+            }
+        }
+
+        int result = 0;
+        for (int dist : maxDist) {
+            result = Math.max(result, dist);
+        }
+        return result;
+    }
+    @Test
+    public void testMutation_IREM() {
+        int[][] distances = {
+                {0, 2, 3, 4},
+                {2, 0, 1, 3},
+                {3, 1, 0, 2},
+                {4, 3, 2, 0}
+        };
+        int k = 2;
+        // Mutation IREM: Modify return statement expression by introducing a new operation
+        int result = mutated_IREM(distances, k);
+        // The result will differ since the return expression has been mutated
+        assertNotEquals(3, result);
+    }
+
+    private int mutated_IREM(int[][] distances, int k) {
+        int n = distances.length;
+        boolean[] selected = new boolean[n];
+        int[] maxDist = new int[n];
+
+        Arrays.fill(maxDist, Integer.MAX_VALUE);
+
+        selected[0] = true;
+        for (int i = 1; i < n; i++) {
+            maxDist[i] = Math.min(maxDist[i], distances[0][i]);
+        }
+
+        for (int centers = 1; centers < k; centers++) {
+            int farthest = -1;
+            for (int i = 0; i < n; i++) {
+                if (!selected[i] && (farthest == -1 || maxDist[i] > maxDist[farthest])) {
+                    farthest = i;
+                }
+            }
+            selected[farthest] = true;
+            for (int i = 0; i < n; i++) {
+                maxDist[i] = Math.min(maxDist[i], distances[farthest][i]);
+            }
+        }
+
+        // IREM Mutation: Modify return statement to include extra computation (incorrect)
+        int result = 0;
+        for (int dist : maxDist) {
+            result = Math.max(result, dist + 1); // Additional operation introduced
+        }
+        return result;
+    }
+
 }

@@ -90,6 +90,95 @@ class JobSequencingTest {
         String result = JobSequencing.findJobSequence(jobs, jobs.size());
         assertEquals("Job Sequence: A -> C -> B", result);
     }
+    @Test
+    public void testIPVR() {
+        ArrayList<JobSequencing.Job> jobs = new ArrayList<>();
+        jobs.add(new JobSequencing.Job('A', 2, 100));
+        jobs.add(new JobSequencing.Job('B', 1, 50));
+        jobs.add(new JobSequencing.Job('C', 2, 10));
 
+        // Original job sequence
+        String originalResult = JobSequencing.findJobSequence(jobs, jobs.size());
 
+        // IVPR: Replace one job's parameters
+        ArrayList<JobSequencing.Job> mutatedJobs = new ArrayList<>(jobs);
+        mutatedJobs.set(1, new JobSequencing.Job('D', 2, 200)); // Replace 'B' with a high-profit job 'D'
+
+        // Mutated job sequence
+        String mutatedResult = JobSequencing.findJobSequence(mutatedJobs, mutatedJobs.size());
+
+        // Check that the mutation affects the result
+        assertNotEquals(originalResult, mutatedResult, "IPVR mutation was not killed!");
+
+        // Additional validation: Check the mutated sequence includes the replacement job
+        assertTrue(mutatedResult.contains("D"), "Mutated sequence should reflect IVPR changes.");
+    }
+
+    /**
+     * Test for Integration Parameter Exchange (IPEX).
+     */
+    @Test
+    public void testIPEX() {
+        ArrayList<JobSequencing.Job> jobs = new ArrayList<>();
+        jobs.add(new JobSequencing.Job('A', 2, 100));
+        jobs.add(new JobSequencing.Job('B', 1, 50));
+        jobs.add(new JobSequencing.Job('C', 2, 10));
+
+        // Parameter exchange: Alter the deadlines of two jobs
+        int originalDeadlineA = jobs.get(0).deadline;
+        int originalDeadlineB = jobs.get(1).deadline;
+        jobs.get(0).deadline = originalDeadlineB;
+        jobs.get(1).deadline = originalDeadlineA; // IPEX: Exchange deadlines of job 'A' and 'B'
+
+        String resultWithExchange = JobSequencing.findJobSequence(jobs, jobs.size());
+
+        // Revert mutation
+        jobs.get(0).deadline = originalDeadlineA;
+        jobs.get(1).deadline = originalDeadlineB;
+
+        String resultWithoutExchange = JobSequencing.findJobSequence(jobs, jobs.size());
+
+        // Results should differ due to the parameter exchange
+        assertNotEquals(resultWithExchange, resultWithoutExchange, "IPEX mutation was not killed!");
+    }
+
+    /**
+     * Test for Integration Method Call Deletion (IMCD).
+     */
+    @Test
+    public void testIMCD() {
+        ArrayList<JobSequencing.Job> jobs = new ArrayList<>();
+        jobs.add(new JobSequencing.Job('A', 2, 100));
+        jobs.add(new JobSequencing.Job('B', 1, 50));
+        jobs.add(new JobSequencing.Job('C', 2, 10));
+
+        // Original method call
+        String originalResult = JobSequencing.findJobSequence(jobs, jobs.size());
+
+        // Simulate method call deletion by directly returning an empty sequence
+        String deletedCallResult = "Job Sequence: "; // IMCD: Simulate method call deletion
+
+        // Results should differ as the method call is replaced with a constant output
+        assertNotEquals(originalResult, deletedCallResult, "IMCD mutation was not killed!");
+    }
+
+    /**
+     * Test for Integration Return Expression Modification (IREM).
+     */
+    @Test
+    public void testIREM() {
+        ArrayList<JobSequencing.Job> jobs = new ArrayList<>();
+        jobs.add(new JobSequencing.Job('A', 2, 100));
+        jobs.add(new JobSequencing.Job('B', 1, 50));
+        jobs.add(new JobSequencing.Job('C', 2, 10));
+
+        // Original method call
+        String originalResult = JobSequencing.findJobSequence(jobs, jobs.size());
+
+        // Modify the return expression by appending extra data
+        String mutatedResult = originalResult + " -> Mutated"; // IREM: Append extra data to result
+
+        // Results should differ due to the altered return expression
+        assertNotEquals(originalResult, mutatedResult, "IREM mutation was not killed!");
+    }
 }

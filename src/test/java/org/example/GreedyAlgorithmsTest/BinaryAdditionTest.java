@@ -167,4 +167,73 @@ public class BinaryAdditionTest {
         assertEquals(expectedSum, sumResult);
         assertEquals('1', expectedCarry); // carry should be '1'
     }
+
+    // Integration Test for IPVR (Integration Parameter Variable Replacement)
+    @Test
+    public void testIPVR() {
+        String a = "1101";
+        String b = "1011";
+        // Replace parameters with reversed strings
+        String mutatedResult = binaryAddition.addBinary(new StringBuilder(a).reverse().toString(), b);
+        String originalResult = binaryAddition.addBinary(a, b);
+
+        assertNotEquals(originalResult, mutatedResult, "IVPR mutation was not killed!");
+    }
+
+    // Integration Test for IUOI (Integration Unary Operator Insertion)
+    @Test
+    public void testIUOI() {
+        String a = "1101";
+        String b = "1011";
+        // Negate characters (simulate a faulty unary operator insertion)
+        String mutatedResult = binaryAddition.addBinary(
+                a.replace('1', '0').replace('0', '1'),
+                b.replace('1', '0').replace('0', '1')
+        );
+        String originalResult = binaryAddition.addBinary(a, b);
+
+        assertNotEquals(originalResult, mutatedResult, "IUOI mutation was not killed!");
+    }
+
+    // Integration Test for IMCD (Integration Method Call Deletion)
+    @Test
+    public void testIMCD() {
+        String a = "1101";
+        String b = "1011";
+        // Simulate mutation by skipping carry calculations
+        String mutatedResult = addBinaryWithoutCarry(a, b);
+        String originalResult = binaryAddition.addBinary(a, b);
+
+        assertNotEquals(originalResult, mutatedResult, "IMCD mutation was not killed!");
+    }
+
+    // Integration Test for IREM (Integration Return Expression Modification)
+    @Test
+    public void testIREM() {
+        String a = "1101";
+        String b = "1011";
+        // Mutate by adding an extra '1' at the end of the result
+        String mutatedResult = binaryAddition.addBinary(a, b) + "1";
+        String originalResult = binaryAddition.addBinary(a, b);
+
+        assertNotEquals(originalResult, mutatedResult, "IREM mutation was not killed!");
+    }
+
+    /**
+     * Helper method to simulate IMCD by skipping carry calculations.
+     */
+    private String addBinaryWithoutCarry(String a, String b) {
+        int maxLength = Math.max(a.length(), b.length());
+        a = String.format("%" + maxLength + "s", a).replace(' ', '0');
+        b = String.format("%" + maxLength + "s", b).replace(' ', '0');
+
+        StringBuilder result = new StringBuilder();
+
+        for (int i = maxLength - 1; i >= 0; i--) {
+            char sum = binaryAddition.sum(a.charAt(i), b.charAt(i), '0'); // Always use '0' as carry
+            result.append(sum);
+        }
+
+        return result.reverse().toString();
+    }
 }

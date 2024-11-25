@@ -9,10 +9,120 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class ActivitySelectionTest {
 
-    // Unit Tests
+
+    // Original test case
+    private final int[] startTimes = {1, 3, 0, 5, 8, 5};
+    private final int[] endTimes = {2, 4, 6, 7, 9, 9};
+
+    /**
+     * Test case to ensure the original implementation works correctly.
+     */
+    @Test
+    public void testOriginalImplementation() {
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(0);
+        expected.add(1);
+        expected.add(3);
+        expected.add(4);
+
+        ArrayList<Integer> actual = ActivitySelection.activitySelection(startTimes, endTimes);
+        assertEquals(expected, actual, "Original implementation failed!");
+    }
+
+    /**
+     * Integration Parameter Variable Replacement (IVPR) Test.
+     * Replace input arrays with swapped versions and check results.
+     */
+    @Test
+    public void testIPVR() {
+        int[] swappedStartTimes = {3, 1, 5, 0, 8, 5};
+        int[] swappedEndTimes = {4, 2, 7, 6, 9, 9};
+
+        // Mutated version of activitySelection with swapped parameters
+        ArrayList<Integer> mutatedOutput = ActivitySelection.activitySelection(swappedStartTimes, swappedEndTimes);
+
+        // IVPR Mutation Test: Should not match original result
+        ArrayList<Integer> originalOutput = ActivitySelection.activitySelection(startTimes, endTimes);
+        assertNotEquals(originalOutput, mutatedOutput, "IVPR mutation was not killed!");
+    }
+
+    /**
+     * Integration Method Call Deletion (IMCD) Test.
+     * Simulate deletion of sorting logic and verify incorrect results.
+     */
+    @Test
+    public void testIMCD() {
+        // Test data where sorting is critical
+        int[] unsortedStartTimes = {5, 3, 0, 1, 8, 5};
+        int[] unsortedEndTimes = {7, 4, 6, 2, 9, 9};
+
+        // Mutated activitySelection (without sorting)
+        ArrayList<Integer> mutatedOutput = activitySelectionWithoutSorting(unsortedStartTimes, unsortedEndTimes);
+
+        // Original activitySelection with sorting
+        ArrayList<Integer> originalOutput = ActivitySelection.activitySelection(unsortedStartTimes, unsortedEndTimes);
+
+        // IMCD Mutation Test: Should not match original result
+        assertNotEquals(originalOutput, mutatedOutput, "IMCD mutation was not killed!");
+    }
+
+
+    /**
+     * Integration Parameter Exchange (IPEX) Test.
+     * Exchange start and end times and verify incorrect results.
+     */
+    @Test
+    public void testIPEX() {
+        // Mutated activitySelection with swapped start/end times
+        ArrayList<Integer> mutatedOutput = ActivitySelection.activitySelection(endTimes, startTimes);
+
+        // IPEX Mutation Test: Should not match original result
+        ArrayList<Integer> originalOutput = ActivitySelection.activitySelection(startTimes, endTimes);
+        assertNotEquals(originalOutput, mutatedOutput, "IPEX mutation was not killed!");
+    }
+
+    /**
+     * Integration Return Expression Modification (IREM) Test.
+     * Simulate incorrect return values and verify results.
+     */
+    @Test
+    public void testIREM() {
+        // Mutated activitySelection with incorrect return
+        ArrayList<Integer> mutatedOutput = activitySelectionWithIREM(startTimes, endTimes);
+
+        // IREM Mutation Test: Should not match original result
+        ArrayList<Integer> originalOutput = ActivitySelection.activitySelection(startTimes, endTimes);
+        assertNotEquals(originalOutput, mutatedOutput, "IREM mutation was not killed!");
+    }
+
+    // Helper method to simulate IMCD mutation
+    private ArrayList<Integer> activitySelectionWithoutSorting(int[] startTimes, int[] endTimes) {
+        ArrayList<Integer> selectedActivities = new ArrayList<>();
+        if (startTimes.length == 0) return selectedActivities;
+
+        // Assume activities are already sorted (mutation)
+        selectedActivities.add(0);
+        int lastEndTime = endTimes[0];
+
+        for (int i = 1; i < startTimes.length; i++) {
+            if (startTimes[i] >= lastEndTime) {
+                selectedActivities.add(i);
+                lastEndTime = endTimes[i];
+            }
+        }
+        return selectedActivities;
+    }
+
+    // Helper method to simulate IREM mutation
+    private ArrayList<Integer> activitySelectionWithIREM(int[] startTimes, int[] endTimes) {
+        ArrayList<Integer> selectedActivities = ActivitySelection.activitySelection(startTimes, endTimes);
+        selectedActivities.add(999); // Mutation: Incorrect addition
+        return selectedActivities;
+    }
 
     @Test
     void testNonOverlappingActivities() {
@@ -122,6 +232,5 @@ class ActivitySelectionTest {
         ArrayList<Integer> expected = new ArrayList<>(Arrays.asList(0));
         assertEquals(expected, ActivitySelection.activitySelection(startTimes, endTimes));
     }
-
 
 }

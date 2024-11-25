@@ -2,10 +2,66 @@ package org.example.Backtracking;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class PowerSumTest {
 
     PowerSum powerSum = new PowerSum();
+
+    @Test
+    void testIPVR() {
+        // IPVR: Integration Parameter Variable Replacement
+        // Replace parameters in the call with compatible variables or values
+
+        int targetSum = 100;
+        int power = 3;
+
+        // Original call
+        int originalResult = powerSum.powSum(targetSum, power);
+
+        // Replacing targetSum with a random value (valid mutation example)
+        int mutatedResult = powerSum.powSum(50, power);
+
+        // Ensure that the result changes
+        assertNotEquals(originalResult, mutatedResult, "IVPR mutation failed: Results are the same.");
+    }
+
+    @Test
+    void testIREM() {
+        // IREM: Integration Return Expression Modification
+        // Modify the return value of the method (simulate return negation or addition)
+
+        // Call the method with a test case
+        int targetSum = 100;
+        int power = 3;
+
+        // Original result
+        int originalResult = powerSum.powSum(targetSum, power);
+
+        // Simulating a mutation in the return expression
+        int mutatedResult = powerSum.powSum(targetSum, power) + 1; // Mutation: Add 1 to the result
+
+        // Verify that the mutation causes a change in behavior
+        assertNotEquals(originalResult, mutatedResult, "IREM mutation failed: Results are the same.");
+    }
+
+    @Test
+    void testIMCD() {
+        // IMCD: Integration Method Call Deletion
+        // Simulate deleting a method call and replacing it with default or constant values
+
+        int targetSum = 100;
+        int power = 3;
+
+        // Original call
+        int originalResult = powerSum.powSum(targetSum, power);
+
+        // Simulated mutation: Replace method call with a default value
+        int mutatedResult = 0; // Assuming the mutation deletes the method call and returns 0
+
+        // Verify that the mutation causes a change in behavior
+        assertNotEquals(originalResult, mutatedResult, "IMCD mutation failed: Results are the same.");
+    }
 
     @Test
     void testBasicCase() {

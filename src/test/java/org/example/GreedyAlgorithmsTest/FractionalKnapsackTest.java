@@ -117,4 +117,83 @@ class FractionalKnapsackTest {
         assertEquals(0, result);
     }
 
+    /**
+     * Test for Integration Parameter Variable Replacement (IPVR).
+     */
+    @Test
+    public void testIPVR() {
+        int[] weight = {10, 20, 30};
+        int[] value = {60, 100, 120};
+        int capacity = 50;
+
+        // Original method call
+        int originalResult = FractionalKnapsack.fractionalKnapsack(weight, value, capacity);
+
+        // Replace one of the parameters with a constant value (e.g., weight array replaced with {5, 10, 15})
+        int[] mutatedWeight = {5, 10, 15}; // IVPR: Replacing the weight parameter with a different value
+        int mutatedResult = FractionalKnapsack.fractionalKnapsack(mutatedWeight, value, capacity);
+
+        // The results should differ due to the change in the weight array
+        assertNotEquals(originalResult, mutatedResult, "IPVR mutation was not killed!");
+    }
+
+    /**
+     * Test for Integration Unary Operator Insertion (IUOI).
+     */
+    @Test
+    public void testIUOI() {
+        int[] weight = {10, 20, 30};
+        int[] value = {60, 100, 120};
+        int capacity = 50;
+
+        // Original method call
+        int originalResult = FractionalKnapsack.fractionalKnapsack(weight, value, capacity);
+
+        // Simulate a unary operator insertion by negating the capacity
+        int mutatedCapacity = -capacity; // IUOI: Unary operator insertion (negating capacity)
+        int mutatedResult = FractionalKnapsack.fractionalKnapsack(weight, value, mutatedCapacity);
+
+        // The results should differ since the capacity is negated
+        assertNotEquals(originalResult, mutatedResult, "IUOI mutation was not killed!");
+    }
+
+
+    /**
+     * Test for Integration Method Call Deletion (IMCD).
+     */
+    @Test
+    public void testIMCD() {
+        int[] weight = {10, 20, 30};
+        int[] value = {60, 100, 120};
+        int capacity = 50;
+
+        // Original method call
+        int originalResult = FractionalKnapsack.fractionalKnapsack(weight, value, capacity);
+
+        // Simulate method call deletion by replacing the method call with a default return value (e.g., 0)
+        int mutatedResult = 0; // IMCD: Deleting the method call, returning a constant value (e.g., 0)
+
+        // The results should differ due to the method call deletion
+        assertNotEquals(originalResult, mutatedResult, "IMCD mutation was not killed!");
+    }
+
+    /**
+     * Test for Integration Return Expression Modification (IREM).
+     */
+    @Test
+    public void testIREM() {
+        int[] weight = {10, 20, 30};
+        int[] value = {60, 100, 120};
+        int capacity = 50;
+
+        // Original method call
+        int originalResult = FractionalKnapsack.fractionalKnapsack(weight, value, capacity);
+
+        // Simulate a return expression modification by modifying the result in a way that the return value changes
+        int mutatedResult = FractionalKnapsack.fractionalKnapsack(weight, value, capacity) - 10; // IREM: Modify return expression by subtracting 10
+
+        // The results should differ due to the return expression modification
+        assertNotEquals(originalResult, mutatedResult, "IREM mutation was not killed!");
+    }
+
 }

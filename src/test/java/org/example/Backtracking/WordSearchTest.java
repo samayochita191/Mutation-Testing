@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WordSearchTest {
-
+    WordSearch ws = new WordSearch();
     @Test
     void testWordExists() {
         WordSearch wordSearch = new WordSearch();
@@ -323,4 +323,102 @@ class WordSearchTest {
         WordSearch wordSearch = new WordSearch();
         assertFalse(wordSearch.exist(board, word)); // Word does not exist in a single letter board
     }
+    // Helper to create a WordSearch instance
+    // Test for Integration Parameter Variable Replacement (IPVR)
+    @Test
+    void testIPVR() {
+        WordSearch ws = new WordSearch();
+        char[][] board = {
+                {'A', 'B', 'C', 'E'},
+                {'S', 'F', 'C', 'S'},
+                {'A', 'D', 'E', 'E'}
+        };
+        String word = "ABCCED";
+
+        // Replacing `board` with null or incompatible type would cause syntax errors.
+        // Testing with a different but valid board
+        char[][] alteredBoard = {
+                {'A', 'B', 'C'},
+                {'S', 'F', 'C'},
+                {'A', 'M', 'E'}
+        };
+
+        assertFalse(ws.exist(alteredBoard, word)); // IVPR: Variable replacement of board
+        assertTrue(ws.exist(board, word));        // Ensure original still works
+    }
+
+    // Test for Integration Parameter Exchange (IPEX)
+    @Test
+    void testIPEX() {
+        WordSearch ws = new WordSearch();
+        char[][] board = {
+                {'A', 'B', 'C', 'E'},
+                {'S', 'F', 'C', 'S'},
+                {'A', 'D', 'E', 'E'}
+        };
+        String word = "ABCB";
+
+        // Exchange parameters in the call
+        assertFalse(ws.exist(board, word)); // Original test
+        assertFalse(ws.exist(board, new StringBuilder(word).reverse().toString())); // IPEX: Reverse the word
+    }
+    // Simulating IMCD: Removing calls to isValid inside doDFS
+    public boolean doDFSWithoutValidityCheck(int x, int y, int nextIdx, String word, boolean[][] visited, int[] dx, int[] dy, char[][] board) {
+        visited[x][y] = true;
+        if (nextIdx == word.length()) {
+            return true;
+        }
+
+        for (int i = 0; i < 4; ++i) {
+            int xi = x + dx[i];
+            int yi = y + dy[i];
+
+            // Removed `isValid(xi, yi)` check
+            if (board[xi][yi] == word.charAt(nextIdx) && !visited[xi][yi]) {
+                boolean exists = doDFSWithoutValidityCheck(xi, yi, nextIdx + 1, word, visited, dx, dy, board);
+                if (exists) {
+                    return true;
+                }
+            }
+        }
+
+        visited[x][y] = false; // Backtrack
+        return false;
+    }
+    @Test
+    void testIMCD() {
+
+        final int[] dx = {0, 0, 1, -1};
+        final int[] dy = {1, -1, 0, 0};
+        char[][] board = {
+                {'A', 'B', 'C', 'E'},
+                {'S', 'F', 'E', 'S'},
+                {'A', 'D', 'E', 'E'}
+        };
+        String word = "ESE";
+
+        // Simulate IMCD: Using the mutated version of `doDFS` without validity checks
+        boolean resultWithoutValidityCheck = false;
+        boolean exceptionThrown = false;
+        boolean[][] visited = new boolean[board.length][board[0].length];
+
+        // Manually invoking the mutated doDFS
+        try {
+            for (int i = 0; i < board.length; ++i) {
+                for (int j = 0; j < board[0].length; ++j) {
+                    if (board[i][j] == word.charAt(0)) {
+                        resultWithoutValidityCheck = doDFSWithoutValidityCheck(i, j, 1, word, visited, dx, dy, board);
+                        if (resultWithoutValidityCheck) break;
+                    }
+                }
+                if (resultWithoutValidityCheck) break;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            exceptionThrown = true;
+        }
+
+        // Test: Mutation should fail by either returning a wrong result or throwing an exception
+        assertTrue(exceptionThrown, "Removing validity checks should cause an out-of-bounds exception.");
+    }
+
 }

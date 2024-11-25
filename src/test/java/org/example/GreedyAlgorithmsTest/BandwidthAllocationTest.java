@@ -2,6 +2,9 @@ package org.example.GreedyAlgorithmsTest;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import org.example.GreedyAlgorithms.BandwidthAllocation;
+
+import java.util.Arrays;
+
 public class BandwidthAllocationTest {
         // Unit Tests
         @Test
@@ -110,6 +113,81 @@ public class BandwidthAllocationTest {
             int[] values = {50, 100};
             double expectedValue = 50 + 20; // Fully allocate to user 0, fractionally to user 1
             assertEquals(expectedValue, BandwidthAllocation.maxValue(bandwidth, users, values), 0.001);
+        }
+        // IPVR Mutation Test
+        @Test
+        public void testIPVR() {
+            int bandwidth = 10;
+            int[] users = {3, 5, 7};
+            int[] values = {10, 20, 30};
+
+            // Mutate by replacing 'users' with 'values' (IPVR simulation)
+            double mutatedResult = BandwidthAllocation.maxValue(bandwidth, values, values);
+            double originalResult = BandwidthAllocation.maxValue(bandwidth, users, values);
+
+            assertNotEquals(originalResult, mutatedResult, "IVPR mutation was not killed!");
+        }
+
+        // IUOI Mutation Test
+        @Test
+        public void testIUOI() {
+            int bandwidth = 10;
+            int[] users = {3, 5, 7};
+            int[] values = {10, 20, 30};
+
+            // Mutate by applying a unary operator (negate values)
+            int[] mutatedValues = Arrays.stream(values).map(v -> -v).toArray();
+            double mutatedResult = BandwidthAllocation.maxValue(bandwidth, users, mutatedValues);
+            double originalResult = BandwidthAllocation.maxValue(bandwidth, users, values);
+
+            assertNotEquals(originalResult, mutatedResult, "IUOI mutation was not killed!");
+        }
+
+        // IMCD Mutation Test
+        @Test
+        public void testIMCD() {
+            int bandwidth = 10;
+            int[] users = {3, 5, 7};
+            int[] values = {10, 20, 30};
+
+            // Mutate by bypassing sorting step
+            double mutatedResult = maxValueWithoutSorting(bandwidth, users, values);
+            double originalResult = BandwidthAllocation.maxValue(bandwidth, users, values);
+
+            assertNotEquals(originalResult, mutatedResult, "IMCD mutation was not killed!");
+        }
+
+        /**
+         * Helper function to simulate IMCD mutation by skipping sorting.
+         */
+        private double maxValueWithoutSorting(int bandwidth, int[] users, int[] values) {
+            int n = users.length;
+            double maxValue = 0;
+
+            // Allocate bandwidth without sorting
+            for (int i = 0; i < n; i++) {
+                if (bandwidth >= users[i]) {
+                    maxValue += values[i];
+                    bandwidth -= users[i];
+                } else {
+                    maxValue += values[i] * ((double) bandwidth / users[i]);
+                    break;
+                }
+            }
+            return maxValue;
+        }
+        // IREM Mutation Test
+        @Test
+        public void testIREM() {
+            int bandwidth = 10;
+            int[] users = {3, 5, 7};
+            int[] values = {10, 20, 30};
+
+            // Mutate by modifying return value
+            double mutatedResult = BandwidthAllocation.maxValue(bandwidth, users, values) + 10;
+            double originalResult = BandwidthAllocation.maxValue(bandwidth, users, values);
+
+            assertNotEquals(originalResult, mutatedResult, "IREM mutation was not killed!");
         }
 
 }

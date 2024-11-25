@@ -8,8 +8,8 @@ public class MinimizingLateness {
         String jobName;
         public int startTime = 0;
         public int lateness = 0;
-        int processingTime;
-        int deadline;
+        public int processingTime;
+        public int deadline;
 
         public Job(String jobName, int processingTime, int deadline) {
             this.jobName = jobName;

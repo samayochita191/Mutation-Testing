@@ -178,4 +178,68 @@ class MergeIntervalsTest {
 
         assertArrayEquals(expected, result);
     }
+    @Test
+    void testIPVR() {
+        // IPVR: Integration Parameter Variable Replacement
+        // Replace one or more parameters with alternate values
+
+        int[][] intervals = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+        int[][] originalResult = MergeIntervals.merge(intervals);
+
+        // Replace intervals with a different set of input
+        int[][] mutatedIntervals = {{1, 4}, {5, 6}, {8, 10}, {15, 20}};
+        int[][] mutatedResult = MergeIntervals.merge(mutatedIntervals);
+
+        // Verify that the results differ due to mutation
+        assertNotEquals(originalResult, mutatedResult, "IVPR mutation failed: Results are the same.");
+    }
+
+    @Test
+    void testIMCD() {
+        // IMCD: Integration Method Call Deletion
+        // Simulate deleting the merge method call and replacing it with a default result
+
+        int[][] intervals = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+        int[][] originalResult = MergeIntervals.merge(intervals);
+
+        // Simulated mutation: Replace the method result with an empty array
+        int[][] mutatedResult = new int[0][];
+
+        // Verify that the mutation causes a different result
+        assertNotEquals(originalResult, mutatedResult, "IMCD mutation failed: Results are the same.");
+    }
+
+    @Test
+    void testIREM() {
+        // IREM: Integration Return Expression Modification
+        // Modify the return value of the merge method to simulate a mutation
+
+        int[][] intervals = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+        int[][] originalResult = MergeIntervals.merge(intervals);
+
+        // Simulated mutation: Add an extra interval to the result
+        int[][] mutatedResult = new int[originalResult.length + 1][];
+        System.arraycopy(originalResult, 0, mutatedResult, 0, originalResult.length);
+        mutatedResult[originalResult.length] = new int[]{0, 0};
+
+        // Verify that the mutation causes a different result
+        assertNotEquals(originalResult, mutatedResult, "IREM mutation failed: Results are the same.");
+    }
+
+    @Test
+    void testIPEX() {
+        // IPEX: Integration Parameter Exchange
+        // Swap the start and end times in the intervals to test compatibility and result changes
+
+        int[][] intervals = {{1, 3}, {2, 6}, {8, 10}, {15, 18}};
+        int[][] originalResult = MergeIntervals.merge(intervals);
+
+        // Mutated intervals: Swap start and end times
+        int[][] swappedIntervals = {{3, 1}, {6, 2}, {10, 8}, {18, 15}};
+        int[][] mutatedResult = MergeIntervals.merge(swappedIntervals);
+
+        // Verify that the mutation causes a different result
+        assertNotEquals(originalResult, mutatedResult, "IPEX mutation failed: Results are the same.");
+    }
+
 }

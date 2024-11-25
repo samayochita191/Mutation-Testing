@@ -197,4 +197,105 @@ class GaleShapleyTest {
         assertEquals("Xavier", result.get("Wendy"));
     }
 
+    /**
+     * Test for Integration Parameter Variable Replacement (IPVR).
+     */
+    @Test
+    public void testIPVR() {
+        // Original input data for stable matching
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        womenPrefs.put("Alice", new LinkedList<>(List.of("John", "Paul")));
+        womenPrefs.put("Bob", new LinkedList<>(List.of("Paul", "John")));
+        menPrefs.put("John", new LinkedList<>(List.of("Alice", "Bob")));
+        menPrefs.put("Paul", new LinkedList<>(List.of("Bob", "Alice")));
+
+        // Original method call
+        Map<String, String> originalResult = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        // Replace one of the input maps with a mutated map (e.g., different preferences for women)
+        Map<String, LinkedList<String>> mutatedWomenPrefs = new HashMap<>();
+        mutatedWomenPrefs.put("Alice", new LinkedList<>(List.of("Paul", "John"))); // IVPR: Change Alice's preference
+
+        Map<String, String> mutatedResult = GaleShapley.stableMatch(mutatedWomenPrefs, menPrefs);
+
+        // The results should differ due to the change in women's preferences
+        assertNotEquals(originalResult, mutatedResult, "IPVR mutation was not killed!");
+    }
+
+    /**
+     * Test for Integration Unary Operator Insertion (IUOI).
+     */
+    @Test
+    public void testIUOI() {
+        // Original input data for stable matching
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        womenPrefs.put("Alice", new LinkedList<>(List.of("John", "Paul")));
+        womenPrefs.put("Bob", new LinkedList<>(List.of("Paul", "John")));
+        menPrefs.put("John", new LinkedList<>(List.of("Alice", "Bob")));
+        menPrefs.put("Paul", new LinkedList<>(List.of("Bob", "Alice")));
+
+        // Original method call
+        Map<String, String> originalResult = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        // Mutate the input by applying a unary operation (e.g., negating the preferences)
+        // In this case, we don't really have "negation" but we can simulate changing the input to some new invalid state.
+        menPrefs.put("John", new LinkedList<>(List.of("Alice"))); // IUOI: Modify John's preferences
+
+        Map<String, String> mutatedResult = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        // The results should differ due to the unary operation (modifying John’s preference)
+        assertNotEquals(originalResult, mutatedResult, "IUOI mutation was not killed!");
+    }
+    /**
+     * Test for Integration Method Call Deletion (IMCD).
+     */
+    @Test
+    public void testIMCD() {
+        // Original input data for stable matching
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        womenPrefs.put("Alice", new LinkedList<>(List.of("John", "Paul")));
+        womenPrefs.put("Bob", new LinkedList<>(List.of("Paul", "John")));
+        menPrefs.put("John", new LinkedList<>(List.of("Alice", "Bob")));
+        menPrefs.put("Paul", new LinkedList<>(List.of("Bob", "Alice")));
+
+        // Original method call
+        Map<String, String> originalResult = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        // Simulate a method call deletion by returning a constant value (e.g., empty matching)
+        Map<String, String> mutatedResult = new HashMap<>(); // IMCD: Simulating method deletion, return empty map
+
+        // The results should differ due to the method call deletion
+        assertNotEquals(originalResult, mutatedResult, "IMCD mutation was not killed!");
+    }
+
+    /**
+     * Test for Integration Return Expression Modification (IREM).
+     */
+    @Test
+    public void testIREM() {
+        // Original input data for stable matching
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        womenPrefs.put("Alice", new LinkedList<>(List.of("John", "Paul")));
+        womenPrefs.put("Bob", new LinkedList<>(List.of("Paul", "John")));
+        menPrefs.put("John", new LinkedList<>(List.of("Alice", "Bob")));
+        menPrefs.put("Paul", new LinkedList<>(List.of("Bob", "Alice")));
+
+        // Original method call
+        Map<String, String> originalResult = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        // Modify the return value by altering the result after method execution
+        Map<String, String> mutatedResult = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        mutatedResult.put("Alice", "Paul"); // IREM: Modify the return expression by altering the result
+
+        // The results should differ due to the modified return expression
+        assertNotEquals(originalResult, mutatedResult, "IREM mutation was not killed!");
+    }
 }

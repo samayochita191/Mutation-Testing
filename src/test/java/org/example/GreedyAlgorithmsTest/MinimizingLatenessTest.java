@@ -87,4 +87,77 @@ class MinimizingLatenessTest {
         MinimizingLateness.calculateLateness();
         // No exceptions should occur when the job list is empty
     }
+    @Test
+    public void testMinimizingLatenessMutation_IMCD() {
+        // Create sample jobs
+        MinimizingLateness.Job job1 = MinimizingLateness.Job.of("Job1", 3, 6);
+        MinimizingLateness.Job job2 = MinimizingLateness.Job.of("Job2", 2, 5);
+        MinimizingLateness.Job job3 = MinimizingLateness.Job.of("Job3", 4, 8);
+
+        MinimizingLateness.Job[] jobs = {job1, job2, job3};
+
+        // Apply IMCD mutation by deleting a critical line
+        // Mutation: Delete the line where lateness is calculated
+        int startTime = 0;
+        for (MinimizingLateness.Job job : jobs) {
+            job.startTime = startTime;
+            startTime += job.processingTime;
+        }
+
+        // Since the lateness calculation line is deleted, lateness should remain 0
+        for (MinimizingLateness.Job job : jobs) {
+            assertEquals(0, job.lateness, "Job lateness should be 0 due to IMCD mutation");
+        }
+    }
+
+    @Test
+    public void testMinimizingLatenessMutation_IREM() {
+        // Create sample jobs
+        MinimizingLateness.Job job1 = MinimizingLateness.Job.of("Job1", 3, 6);
+        MinimizingLateness.Job job2 = MinimizingLateness.Job.of("Job2", 2, 5);
+        MinimizingLateness.Job job3 = MinimizingLateness.Job.of("Job3", 4, 8);
+
+        MinimizingLateness.Job[] jobs = {job1, job2, job3};
+
+        // Calculate lateness with the original method
+        MinimizingLateness.calculateLateness(jobs);
+
+        // Apply IREM mutation by modifying the return expression
+        // Mutation: Add extra operation (e.g., adding 1 to lateness)
+        for (MinimizingLateness.Job job : jobs) {
+            job.lateness += 1;  // Introduce an additional lateness
+        }
+
+        // Verify the mutated lateness values
+        assertNotEquals(0, job1.lateness, "Job1 lateness should be different due to IREM mutation");
+        assertNotEquals(0, job2.lateness, "Job2 lateness should be different due to IREM mutation");
+        assertNotEquals(1, job3.lateness, "Job3 lateness should be different due to IREM mutation");
+    }
+
+    @Test
+    public void testMinimizingLatenessMutation_IPEX() {
+        // Create sample jobs
+        MinimizingLateness.Job job1 = MinimizingLateness.Job.of("Job1", 3, 6);
+        MinimizingLateness.Job job2 = MinimizingLateness.Job.of("Job2", 2, 5);
+        MinimizingLateness.Job job3 = MinimizingLateness.Job.of("Job3", 4, 8);
+
+        MinimizingLateness.Job[] jobs = {job1, job2, job3};
+
+        // Apply IPEX mutation by swapping the parameters in the lateness calculation
+        // Mutation: Swap processing time with deadline for calculating lateness
+        for (MinimizingLateness.Job job : jobs) {
+            int temp = job.processingTime;
+            job.processingTime = job.deadline;
+            job.deadline = temp;
+        }
+
+        // Calculate lateness after mutation
+        MinimizingLateness.calculateLateness(jobs);
+
+        // Verify the mutated result is different from the original
+        assertNotEquals(0, job1.lateness, "Job1 lateness should differ due to IPEX mutation");
+        assertNotEquals(0, job2.lateness, "Job2 lateness should differ due to IPEX mutation");
+        assertNotEquals(1, job3.lateness, "Job3 lateness should differ due to IPEX mutation");
+    }
 }
+

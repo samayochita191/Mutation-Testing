@@ -1,8 +1,11 @@
 package org.example.Backtracking;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-public class WordPatternMatcherTest {
+import java.util.HashMap;
+import java.util.Map;
 
+public class WordPatternMatcherTest {
+    WordPatternMatcher ws = new WordPatternMatcher();
     @Test
     public void testPatternWithEmptyStringMapping() {
         String pattern = "abc";
@@ -142,4 +145,163 @@ public class WordPatternMatcherTest {
         String inputString = "catdogcatdogcatdog";
         assertFalse(WordPatternMatcher.matchWordPattern(pattern, inputString));
     }
+
+    @Test
+    void testIMCD() {
+        WordPatternMatcher ws = new WordPatternMatcher();
+        String pattern = "abab";
+        String inputString = "JavaPythonJavaPython";
+
+        // Deleting calls to patternMap.containsKey() and strMap.containsKey() inside backtrack
+        boolean resultWithoutValidityCheck = false;
+        Map<Character, String> patternMap = new HashMap<>();
+        Map<String, Character> strMap = new HashMap<>();
+
+        try {
+            resultWithoutValidityCheck = backtrackWithDeletion(pattern, inputString, 0, 0, patternMap, strMap);
+        } catch (Exception e) {
+            // Expecting an exception due to invalid mapping
+            resultWithoutValidityCheck = false;
+        }
+
+        assertFalse(resultWithoutValidityCheck);
+    }
+
+    private boolean backtrackWithDeletion(String pattern, String inputString, int patternIndex, int strIndex, Map<Character, String> patternMap, Map<String, Character> strMap) {
+        if (patternIndex == pattern.length() && strIndex == inputString.length()) {
+            return true;
+        }
+        if (patternIndex == pattern.length() || strIndex == inputString.length()) {
+            return false;
+        }
+
+        char currentChar = pattern.charAt(patternIndex);
+
+        // The validity checks are removed here, which will cause incorrect mappings
+        if (!patternMap.containsKey(currentChar)) {
+            return false;
+        }
+
+        String mappedStr = patternMap.get(currentChar);
+        if (inputString.startsWith(mappedStr, strIndex)) {
+            return backtrackWithDeletion(pattern, inputString, patternIndex + 1, strIndex + mappedStr.length(), patternMap, strMap);
+        } else {
+            return false;
+        }
+    }
+    @Test
+    void testIPVR() {
+        WordPatternMatcher ws = new WordPatternMatcher();
+        String pattern = "abab";
+        String inputString = "JavaPythonJavaPython";
+
+        // Mutation: Replacing variables in method call
+        Map<Character, String> patternMap = new HashMap<>();
+        Map<String, Character> strMap = new HashMap<>();
+
+        // Mutated value for patternMap and strMap
+        patternMap.put('a', "Java");
+        patternMap.put('b', "Python");
+        strMap.put("Java", 'a');
+        strMap.put("Python", 'b');
+
+        boolean result = ws.backtrack(pattern, inputString, 0, 0, patternMap, strMap);
+
+        // The original should return true (valid pattern match)
+        // But with the IVPR mutation, it will change the behavior, which might cause it to fail.
+        assertTrue(result);  // This would fail if the mutation was applied incorrectly.
+    }
+    @Test
+    void testIPEX() {
+        WordPatternMatcher ws = new WordPatternMatcher();
+        String pattern = "abab";
+        String inputString = "JavaPythonJavaPython";
+
+        // Mutation: Exchange the order of parameters in the backtrack method call
+        Map<Character, String> patternMap = new HashMap<>();
+        Map<String, Character> strMap = new HashMap<>();
+
+        // Original order of parameters: patternIndex, strIndex
+        boolean result = ws.backtrack(pattern, inputString, 0, 0, patternMap, strMap);
+
+        // The original pattern matching would give a correct result
+        boolean originalResult = true;
+
+        // Mutation: Swap the order of the parameters
+        boolean mutatedResult = ws.backtrack(inputString, pattern, 0, 0, patternMap, strMap);
+
+        // Assert that the mutated result is different from the original result
+        assertNotEquals(originalResult, mutatedResult); // The mutated result should differ.
+    }
+
+    @Test
+    void testIREM() {
+        WordPatternMatcher ws = new WordPatternMatcher();
+        String pattern = "abab";
+        String inputString = "JavaPythonJavaPython";
+
+        // Mutation: Modify the return expression using an arithmetic operator
+        boolean resultWithIREM = backtrackWithReturnModification(pattern, inputString, 0, 0, new HashMap<>(), new HashMap<>());
+
+        // Original return expression from backtrack should return true for valid matching
+        boolean originalResult = true;
+
+        // The mutated version of the method will yield a different result
+        assertNotEquals(originalResult, resultWithIREM); // The mutated return should cause a failure in the test.
+    }
+
+    private boolean backtrackWithReturnModification(String pattern, String inputString, int patternIndex, int strIndex, Map<Character, String> patternMap, Map<String, Character> strMap) {
+        if (patternIndex == pattern.length() && strIndex == inputString.length()) {
+            // Original return expression: return true if the pattern and string are fully matched
+            return true;
+        }
+        if (patternIndex == pattern.length() || strIndex == inputString.length()) {
+            // Original return expression: return false if one string is fully processed
+            return false;
+        }
+
+        char currentChar = pattern.charAt(patternIndex);
+
+        if (patternMap.containsKey(currentChar)) {
+            String mappedStr = patternMap.get(currentChar);
+            if (inputString.startsWith(mappedStr, strIndex)) {
+                return backtrackWithReturnModification(pattern, inputString, patternIndex + 1, strIndex + mappedStr.length(), patternMap, strMap);
+            } else {
+                return false; // If pattern doesn't match, return false
+            }
+        }
+
+        for (int end = strIndex + 1; end <= inputString.length(); end++) {
+            String substring = inputString.substring(strIndex, end);
+            if (strMap.containsKey(substring)) {
+                continue;
+            }
+
+            patternMap.put(currentChar, substring);
+            strMap.put(substring, currentChar);
+
+            // Mutation: Modify the return expression to use an arithmetic operator
+            boolean backtrackResult = backtrackWithReturnModification(pattern, inputString, patternIndex + 1, end, patternMap, strMap);
+            return !backtrackResult; // IREM mutation: Invert the boolean result (negation)
+        }
+
+        return false;
+    }
+
+    @Test
+    void testIREMOriginal() {
+        WordPatternMatcher ws = new WordPatternMatcher();
+        String pattern = "abab";
+        String inputString = "JavaPythonJavaPython";
+
+        // Original method without modification
+        boolean result = ws.backtrack(pattern, inputString, 0, 0, new HashMap<>(), new HashMap<>());
+
+        // The correct original behavior
+        boolean expected = true;
+
+        // The original method should return the expected result
+        assertEquals(expected, result); // This test ensures that the original behavior remains correct.
+    }
+
 }
