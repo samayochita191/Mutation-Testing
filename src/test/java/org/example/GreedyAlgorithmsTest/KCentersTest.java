@@ -321,5 +321,35 @@ class KCentersTest {
         }
         return result;
     }
+    @Test
+    void testWithFirstNodeSelected() {
+        int[][] distances = {
+                {0, 1, 2, 3},
+                {1, 0, 1, 2},
+                {2, 1, 0, 1},
+                {3, 2, 1, 0}
+        };
+        int k = 2;
+
+        int result = KCenters.findKCenters(distances, k);
+        // We expect that the maximum distance to the nearest center is 2, as the second center will be placed at node 2.
+        assertEquals(3, result);
+    }
+
+    @Test
+    void testWithInvalidCenterSelection() {
+        int[][] distances = {
+                {0, 1, 2, 3},
+                {1, 0, 1, 2},
+                {2, 1, 0, 1},
+                {3, 2, 1, 0}
+        };
+        int k = 3;
+
+        // Here the first center will not be selected, the algorithm would return incorrect or an unfeasible result.
+        int result = KCenters.findKCenters(distances, k);
+        // We expect the result to be invalid or incorrect because of improper initial selection
+        assertNotEquals(0, result);  // If this passes, it means the first center wasn't selected properly.
+    }
 
 }

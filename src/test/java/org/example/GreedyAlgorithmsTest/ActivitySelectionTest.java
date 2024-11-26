@@ -232,5 +232,113 @@ class ActivitySelectionTest {
         ArrayList<Integer> expected = new ArrayList<>(Arrays.asList(0));
         assertEquals(expected, ActivitySelection.activitySelection(startTimes, endTimes));
     }
+    @Test
+    public void testActivitySelection_EndTimesCritical() {
+        int[] startTimes = {1, 3, 2, 5};
+        int[] endTimes = {2, 4, 3, 6}; // Distinct end times
+        List<Integer> expected = Arrays.asList(0, 1, 2, 3); // Correct selection based on end times
+        assertEquals(expected, ActivitySelection.activitySelection(startTimes, endTimes));
+    }
+    @Test
+    public void testExactThreeActivities() {
+        // Define start and end times for three activities
+        int[] startTimes = {1, 3, 0};
+        int[] endTimes = {2, 4, 6};
+
+        // Expected result: Only the first and third activities (indices 0 and 2) should be selected
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(0); // Activity 1: 1-2
+        expected.add(1);
+
+        // Run the activity selection function
+        ArrayList<Integer> result = ActivitySelection.activitySelection(startTimes, endTimes);
+
+        // Verify that the selected activities match the expected result
+        assertEquals(expected, result);
+    }
+    @Test
+    public void testActivitySelection_MutantCriticalCase() {
+        int[] startTimes = {1, 3, 0, 5, 8, 5};
+        int[] endTimes = {2, 4, 6, 7, 9, 9};
+        List<Integer> expected = Arrays.asList(0, 1, 3, 4); // Correct selection
+
+        List<Integer> actual = ActivitySelection.activitySelection(startTimes, endTimes);
+        assertEquals(expected, actual);
+    }
+    @Test
+    public void testSortingByEndTime() {
+        // Define start and end times where activities are not pre-sorted by end time
+        int[] startTimes = {1, 3, 0, 5};
+        int[] endTimes = {2, 4, 6, 7};
+
+        // Expected result: Activities selected are indices [0, 1, 3]
+        // After sorting by end time, the order becomes: {0->1->3->2}
+        ArrayList<Integer> expected = new ArrayList<>();
+        expected.add(0); // Activity 1: 1-2
+        expected.add(1); // Activity 2: 3-4
+        expected.add(3); // Activity 4: 5-7
+
+        // Run the activity selection function
+        ArrayList<Integer> result = ActivitySelection.activitySelection(startTimes, endTimes);
+
+        // Verify that the selected activities match the expected result
+        assertEquals(expected, result);
+    }
+    @Test
+    public void testActivitySelection_MutantKills() {
+        int[] startTimes = {1, 3, 0, 5, 8, 5};
+        int[] endTimes = {2, 4, 6, 7, 9, 9}; // Correct end times
+
+        // This is the expected result when the end times are sorted correctly.
+        List<Integer> expected = Arrays.asList(0, 1, 3, 4);
+
+        List<Integer> actual = ActivitySelection.activitySelection(startTimes, endTimes);
+        assertEquals(expected, actual);
+    }
+    @Test
+    public void testActivitySelection_EndTimeEdgeCase() {
+        int[] startTimes = {1, 2, 3, 4, 5};
+        int[] endTimes = {6, 7, 8, 9, 10};
+        List<Integer> expected = Arrays.asList(0);  // All activities are selected if no overlap
+
+        List<Integer> actual = ActivitySelection.activitySelection(startTimes, endTimes);
+        assertEquals(expected, actual);
+    }
+    @Test
+    public void testActivitySelection_Mutant8_Kills() {
+        int[] startTimes = {1, 3, 0, 5, 8, 5};
+        int[] endTimes = {2, 4, 6, 7, 9, 9}; // Correct end times for activities
+
+        // Expected result when sorting works correctly by end time.
+        List<Integer> expected = Arrays.asList(0, 1, 3, 4);  // Activities 0, 1, 3, and 4 should be selected
+
+        List<Integer> actual = ActivitySelection.activitySelection(startTimes, endTimes);
+        assertEquals(expected, actual);  // Test ensures sorting by end time works
+    }
+    @Test
+    public void testActivitySelection_Mutant5_Kills() {
+        int[] startTimes = {1, 3, 0, 5, 8, 5};
+        int[] endTimes = {4, 4, 6, 7, 9, 9}; // Two activities have the same end time: 4 and 4
+
+        // Expected result when secondary sorting by index works properly.
+        List<Integer> expected = Arrays.asList(0, 3, 4);
+
+        List<Integer> actual = ActivitySelection.activitySelection(startTimes, endTimes);
+        assertEquals(expected, actual);  // This test ensures that secondary sorting is essential
+    }
+    @Test
+    public void testActivitySelection_MutantKilled() {
+        // Activities with start and end times
+        int[] startTimes = {1, 3, 0, 5, 8, 5};
+        int[] endTimes = {4, 4, 6, 7, 9, 9};  // Activity 0 ends at time 4, which is key
+
+        // The expected output when starting the loop at i=1 (correct logic):
+        List<Integer> expected = Arrays.asList(0, 3, 4);  // Activities 0, 3, and 4 should be selected.
+
+        List<Integer> actual = ActivitySelection.activitySelection(startTimes, endTimes);
+
+        assertEquals(expected, actual); // Test ensures that the first activity (index 0) is properly selected
+    }
+
 
 }

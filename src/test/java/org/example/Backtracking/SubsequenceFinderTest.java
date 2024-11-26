@@ -187,4 +187,52 @@ class SubsequenceFinderTest {
         List<List<String>> actualSubsequences = SubsequenceFinder.generateAll(sequence);
         assertEquals(expectedSubsequences, actualSubsequences);
     }
+    @Test
+    public void testLargeList() {
+        // Test case with a larger list to check performance
+        List<String> input = List.of("A", "B", "C", "D", "E");
+        List<List<String>> subsequences = SubsequenceFinder.generateAll(input);
+
+        // The number of subsequences for a list of size n is 2^n
+        assertEquals(Math.pow(2, 5), subsequences.size());
+    }
+
+    @Test
+    public void testNonEmptyListWithNoMutations() {
+        // A general test case with no changes applied to the code
+        List<Integer> input = List.of(1, 2, 3);
+        List<List<Integer>> subsequences = SubsequenceFinder.generateAll(input);
+
+        assertEquals(8, subsequences.size());
+        assertTrue(subsequences.contains(List.of()));
+        assertTrue(subsequences.contains(List.of(1)));
+        assertTrue(subsequences.contains(List.of(2)));
+        assertTrue(subsequences.contains(List.of(3)));
+        assertTrue(subsequences.contains(List.of(1, 2)));
+        assertTrue(subsequences.contains(List.of(1, 3)));
+        assertTrue(subsequences.contains(List.of(2, 3)));
+        assertTrue(subsequences.contains(List.of(1, 2, 3)));
+    }
+
+    @Test
+    public void testMutationWithEmptyListCheckRemoved() {
+        // Test case where the mutation removes the call to isEmpty()
+        List<String> input = List.of();
+        List<List<String>> subsequences = SubsequenceFinder.generateAll(input);
+
+        // Even without checking for empty list, it should still return an empty subsequence
+        assertEquals(1, subsequences.size());
+        assertTrue(subsequences.contains(List.of()));
+    }
+
+    @Test
+    public void testMutationWithFalseCheckInsteadOfEmptyCheck() {
+        // Test case where the empty check is replaced with "false"
+        List<String> input = List.of();
+        List<List<String>> subsequences = SubsequenceFinder.generateAll(input);
+
+        // The behavior should still be correct for an empty list
+        assertEquals(1, subsequences.size());
+        assertTrue(subsequences.contains(List.of()));
+    }
 }

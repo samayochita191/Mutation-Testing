@@ -29,10 +29,10 @@ public class KCenters {
         int n = distances.length;
         boolean[] selected = new boolean[n];
         int[] maxDist = new int[n];
-
         Arrays.fill(maxDist, Integer.MAX_VALUE);
 
         selected[0] = true;
+
         for (int i = 1; i < n; i++) {
             maxDist[i] = Math.min(maxDist[i], distances[0][i]);
         }

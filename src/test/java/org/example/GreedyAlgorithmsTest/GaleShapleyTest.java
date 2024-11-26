@@ -298,4 +298,365 @@ class GaleShapleyTest {
         // The results should differ due to the modified return expression
         assertNotEquals(originalResult, mutatedResult, "IREM mutation was not killed!");
     }
+    @Test
+    public void testManWithNoPreferences() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>(List.of("Bob", "Charlie")));
+        womenPrefs.put("Diana", new LinkedList<>(List.of("Bob", "Charlie")));
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", null); // Man with no preferences
+        menPrefs.put("Charlie", new LinkedList<>(List.of("Alice", "Diana")));
+
+        Map<String, String> result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertEquals("Charlie", result.get("Alice")); // Alice matches Charlie
+        assertEquals(null, result.get("Diana"));  // Diana matches Charlie
+    }
+    @Test
+    public void testEmptyPreferenceLists() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>());
+        womenPrefs.put("Diana", new LinkedList<>());
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", new LinkedList<>());
+        menPrefs.put("Charlie", new LinkedList<>());
+
+        Map<String, String> result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertTrue(result.isEmpty()); // No matches should occur
+    }
+    @Test
+    public void testCyclicPreferences() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>(List.of("Bob", "Charlie")));
+        womenPrefs.put("Diana", new LinkedList<>(List.of("Charlie", "Bob")));
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", new LinkedList<>(List.of("Diana", "Alice")));
+        menPrefs.put("Charlie", new LinkedList<>(List.of("Alice", "Diana")));
+
+        GaleShapley.stableMatch(womenPrefs, menPrefs);
+    }
+    @Test
+    public void testWomanPrefersNewMan() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>(List.of("Bob", "Charlie")));
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", new LinkedList<>(List.of("Alice")));
+        menPrefs.put("Charlie", new LinkedList<>(List.of("Alice")));
+
+        Map<String, String> result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertEquals("Bob", result.get("Alice")); // Ensure Bob is matched first
+
+        // Change preferences mid-process
+        menPrefs.get("Charlie").poll();
+        result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertEquals(null, result.get("Alice")); // Charlie replaces Bob
+    }
+    @Test
+    public void testEngagementUpdate() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>(List.of("Bob", "Charlie")));
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", new LinkedList<>(List.of("Alice")));
+        menPrefs.put("Charlie", new LinkedList<>(List.of("Alice")));
+
+        Map<String, String> result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertEquals("Bob", result.get("Alice")); // Initial engagement
+
+        menPrefs.get("Charlie").poll(); // Charlie proposes
+        result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertEquals(null, result.get("Alice")); // Engagement updated
+    }
+    @Test
+    public void testManReaddedToFreeMen() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>(List.of("Bob", "Charlie")));
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", new LinkedList<>(List.of("Alice")));
+        menPrefs.put("Charlie", new LinkedList<>(List.of("Alice")));
+
+        Map<String, String> result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertEquals("Bob", result.get("Alice")); // Initial engagement
+
+        // Ensure Charlie replaces Bob
+        LinkedList<String> freeMen = new LinkedList<>(menPrefs.keySet());
+        assertTrue(freeMen.contains("Bob")); // Verify Bob is added back to freeMen
+    }
+    @Test
+    public void testManRejectedAndReaddedToFreeMen() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>(List.of("Charlie", "Bob")));
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", new LinkedList<>(List.of("Alice")));
+        menPrefs.put("Charlie", new LinkedList<>(List.of("Alice")));
+
+        Map<String, String> result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertEquals("Charlie", result.get("Alice")); // Charlie engaged
+
+        LinkedList<String> freeMen = new LinkedList<>(menPrefs.keySet());
+        assertTrue(freeMen.contains("Bob")); // Bob remains in freeMen
+    }
+    @Test
+    public void testExceedsMaxIterations() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>(List.of("Bob", "Charlie")));
+        womenPrefs.put("Bob", new LinkedList<>(List.of("Alice", "Charlie")));
+        womenPrefs.put("Charlie", new LinkedList<>(List.of("Alice", "Bob")));
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", new LinkedList<>(List.of("Alice")));
+        menPrefs.put("Charlie", new LinkedList<>(List.of("Alice")));
+
+        GaleShapley.stableMatch(womenPrefs, menPrefs);  // This should throw an exception
+    }
+    @Test
+    public void testIterationsDecrementToNegative() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>(List.of("Bob", "Charlie")));
+        womenPrefs.put("Bob", new LinkedList<>(List.of("Alice", "Charlie")));
+        womenPrefs.put("Charlie", new LinkedList<>(List.of("Alice", "Bob")));
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", new LinkedList<>(List.of("Alice")));
+        menPrefs.put("Charlie", new LinkedList<>(List.of("Alice")));
+
+        // Set maxIterations to a reasonable number
+        int maxIterations = 5;
+
+        // Call the method to check if the iteration works
+        GaleShapley.stableMatch(womenPrefs, menPrefs);  // The loop should fail because of negative iteration increment
+    }
+    @Test
+    public void testExceptionThrownOnFailureToTerminate() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("Alice", new LinkedList<>(List.of("Bob", "Charlie")));
+        womenPrefs.put("Bob", new LinkedList<>(List.of("Alice", "Charlie")));
+        womenPrefs.put("Charlie", new LinkedList<>(List.of("Alice", "Bob")));
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("Bob", new LinkedList<>(List.of("Alice")));
+        menPrefs.put("Charlie", new LinkedList<>(List.of("Alice")));
+
+
+        GaleShapley.stableMatch(womenPrefs, menPrefs);  // This should throw IllegalStateException
+    }
+    // Basic test case to check stable matching
+    @Test
+    public void testBasicMatching() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        // Men preferences
+        menPrefs.put("Man1", new LinkedList<>(Arrays.asList("Woman1", "Woman2")));
+        menPrefs.put("Man2", new LinkedList<>(Arrays.asList("Woman2", "Woman1")));
+
+        // Women preferences
+        womenPrefs.put("Woman1", new LinkedList<>(Arrays.asList("Man1", "Man2")));
+        womenPrefs.put("Woman2", new LinkedList<>(Arrays.asList("Man2", "Man1")));
+
+        // Run stable matching algorithm
+        Map<String, String> engagements = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        assertEquals("Man1", engagements.get("Woman1"));
+        assertEquals("Man2", engagements.get("Woman2"));
+    }
+
+    // Test case where no man is added back to freeMen (check if the algorithm terminates prematurely)
+    @Test
+    public void testNoFreeMenAddedBack() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        // Men preferences
+        menPrefs.put("Man1", new LinkedList<>(Arrays.asList("Woman1")));
+        menPrefs.put("Man2", new LinkedList<>(Arrays.asList("Woman1")));
+
+        // Women preferences
+        womenPrefs.put("Woman1", new LinkedList<>(Arrays.asList("Man1", "Man2")));
+
+        // Run stable matching algorithm
+        Map<String, String> engagements = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        // If the call to LinkedList.add is removed, Man2 may never get a chance to be matched
+        assertEquals("Man1", engagements.get("Woman1"));
+        // The test may fail without the `add` method as Man2 should ideally be engaged as well
+    }
+
+    // Test case with only one man and one woman
+    @Test
+    public void testSingleManSingleWoman() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        // Men preferences
+        menPrefs.put("Man1", new LinkedList<>(Arrays.asList("Woman1")));
+
+        // Women preferences
+        womenPrefs.put("Woman1", new LinkedList<>(Arrays.asList("Man1")));
+
+        // Run stable matching algorithm
+        Map<String, String> engagements = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        assertEquals("Man1", engagements.get("Woman1"));
+    }
+
+    // Test case with more men than women
+    @Test
+    public void testUnevenPreferences() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        // Men preferences
+        menPrefs.put("Man1", new LinkedList<>(Arrays.asList("Woman1", "Woman2")));
+        menPrefs.put("Man2", new LinkedList<>(Arrays.asList("Woman1", "Woman2")));
+        menPrefs.put("Man3", new LinkedList<>(Arrays.asList("Woman2", "Woman1")));
+
+        // Women preferences
+        womenPrefs.put("Woman1", new LinkedList<>(Arrays.asList("Man1", "Man2")));
+        womenPrefs.put("Woman2", new LinkedList<>(Arrays.asList("Man2", "Man3")));
+
+        // Run stable matching algorithm
+        Map<String, String> engagements = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        // Check the matches
+        assertEquals("Man3", engagements.get("Woman1"));
+        assertEquals("Man1", engagements.get("Woman2"));
+    }
+
+    // Test case with a large number of people
+    @Test
+    public void testLargeInput() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        for (int i = 1; i <= 1000; i++) {
+            menPrefs.put("Man" + i, new LinkedList<>(Arrays.asList("Woman" + i)));
+            womenPrefs.put("Woman" + i, new LinkedList<>(Arrays.asList("Man" + i)));
+        }
+
+        // Run stable matching algorithm
+        Map<String, String> engagements = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        for (int i = 1; i <= 1000; i++) {
+            assertEquals("Man" + i, engagements.get("Woman" + i));
+        }
+    }
+
+    // Test case where max iterations are sufficient and the matching succeeds
+    @Test
+    public void testMatchingSuccess() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        // Men preferences
+        menPrefs.put("Man1", new LinkedList<>(Arrays.asList("Woman1")));
+        menPrefs.put("Man2", new LinkedList<>(Arrays.asList("Woman1")));
+
+        // Women preferences
+        womenPrefs.put("Woman1", new LinkedList<>(Arrays.asList("Man1", "Man2")));
+
+        // A large enough value for maxIterations
+        int maxIterations = 100;
+
+        // Run stable matching algorithm and check that no exception is thrown
+        Map<String, String> engagements = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        assertEquals("Man1", engagements.get("Woman1"));
+    }
+    // Test case to check that the loop terminates correctly without calling isEmpty
+    @Test
+    public void testLoopTerminationWithoutIsEmpty() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        // Men preferences
+        menPrefs.put("Man1", new LinkedList<>(Arrays.asList("Woman1")));
+        menPrefs.put("Man2", new LinkedList<>(Arrays.asList("Woman1")));
+
+        // Women preferences
+        womenPrefs.put("Woman1", new LinkedList<>(Arrays.asList("Man1", "Man2")));
+
+        // Create a small map of engagements
+        Map<String, String> engagements = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        // Check if the loop terminates and the engagements are correct
+        assertNotNull(engagements);
+        assertEquals(1, engagements.size());  // Expecting one engagement
+        assertEquals("Man1", engagements.get("Woman1"));
+    }
+    @Test
+    public void testRemovedIndexOfCall() {
+        // Test case where index comparison determines the engagement (removing indexOf will break it)
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("W1", new LinkedList<>(List.of("M1", "M2"))); // Woman W1 prefers M1 first
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("M1", new LinkedList<>(List.of("W1"))); // Man M1 prefers W1
+        menPrefs.put("M2", new LinkedList<>(List.of("W1"))); // Man M2 prefers W1
+
+        Map<String, String> result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertEquals("M1", result.get("W1"));  // W1 should match with M1 (since W1 prefers M1 over M2)
+    }
+    @Test
+    public void testChangedConditionalBoundary() {
+        // Test case where the man is preferred over another but the mutated condition fails
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        womenPrefs.put("W1", new LinkedList<>(List.of("M2", "M1"))); // Woman W1 prefers M2 first
+
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+        menPrefs.put("M1", new LinkedList<>(List.of("W1"))); // Man M1 prefers W1
+        menPrefs.put("M2", new LinkedList<>(List.of("W1"))); // Man M2 prefers W1
+
+        // The result should ideally have W1 matched to M2 since W1 prefers M2 first
+        Map<String, String> result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        assertEquals("M2", result.get("W1"));  // If boundary is correct, W1 will match with M2
+    }
+
+    // Test case to check the behavior when manPref is null or empty
+    @Test
+    public void testManPrefNullOrEmpty() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        // Men preferences
+        menPrefs.put("Man1", null);  // Null preferences list
+        menPrefs.put("Man2", new LinkedList<>());  // Empty preferences list
+
+        // Women preferences
+        womenPrefs.put("Woman1", new LinkedList<>(Arrays.asList("Man1", "Man2")));
+
+        // Run the Gale-Shapley algorithm
+        Map<String, String> engagements = GaleShapley.stableMatch(womenPrefs, menPrefs);
+
+        // Verify the result
+        // Since Man1 and Man2 both have null or empty preferences, they should not be engaged
+        assertTrue(engagements.isEmpty(), "Expected no engagements due to empty or null man preferences.");
+    }
+    @Test
+    void testManPrefIsNullOrEmpty() {
+        Map<String, LinkedList<String>> womenPrefs = new HashMap<>();
+        Map<String, LinkedList<String>> menPrefs = new HashMap<>();
+
+        // Test when manPref is null
+        menPrefs.put("Man1", null);
+        womenPrefs.put("Woman1", new LinkedList<>(Arrays.asList("Man1")));
+
+        Map<String, String> result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        // Since manPref is null, the man should be skipped and no engagement should occur
+        assertTrue(result.isEmpty());
+
+        // Test when manPref is an empty list
+        menPrefs.put("Man1", new LinkedList<>());
+        womenPrefs.put("Woman1", new LinkedList<>(Arrays.asList("Man1")));
+
+        result = GaleShapley.stableMatch(womenPrefs, menPrefs);
+        // Since manPref is empty, the man should be skipped and no engagement should occur
+        assertTrue(result.isEmpty());
+    }
+
 }

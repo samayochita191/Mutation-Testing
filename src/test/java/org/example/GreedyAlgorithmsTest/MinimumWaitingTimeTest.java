@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -113,6 +114,52 @@ class MinimumWaitingTimeTest {
 
         // Verify the mutated result is different from the original
         assertNotEquals(10, result, "The minimum waiting time should be different after modifying the return expression.");
+    }
+    @Test
+    public void testChangedConditionalBoundary() {
+        // Case where there is only one query
+        int[] queriesOne = {5};
+        int resultOne = MinimumWaitingTime.minimumWaitingTime(queriesOne);
+        assertEquals(0, resultOne);  // With one query, no waiting time should be added
+
+        // Case where there are no queries (empty array)
+        int[] queriesEmpty = {};
+        int resultEmpty = MinimumWaitingTime.minimumWaitingTime(queriesEmpty);
+        assertEquals(0, resultEmpty);  // With no queries, no waiting time should be added
+
+        // Case where there are multiple queries (more than 1)
+        int[] queriesMultiple = {1, 2, 3, 4};
+        int resultMultiple = MinimumWaitingTime.minimumWaitingTime(queriesMultiple);
+        assertTrue(resultMultiple > 0);  // With multiple queries, the waiting time should be greater than 0
+    }
+    @Test
+    public void testSubstituted1With0() {
+        // Case where there is exactly one query
+        int[] queriesOne = {10};
+        int resultOne = MinimumWaitingTime.minimumWaitingTime(queriesOne);
+        assertEquals(0, resultOne);  // With one query, no waiting time should be added
+
+        // Case where there are multiple queries
+        int[] queriesMultiple = {10, 20, 30};
+        int resultMultiple = MinimumWaitingTime.minimumWaitingTime(queriesMultiple);
+        assertTrue(resultMultiple > 0);  // The result for multiple queries should be greater than 0
+    }
+    @Test
+    public void testRemovedConditional() {
+        // Case where there are no queries (empty array)
+        int[] queriesEmpty = {};
+        int resultEmpty = MinimumWaitingTime.minimumWaitingTime(queriesEmpty);
+        assertEquals(0, resultEmpty);  // With no queries, no waiting time should be added
+
+        // Case where there is exactly one query
+        int[] queriesSingle = {5};
+        int resultSingle = MinimumWaitingTime.minimumWaitingTime(queriesSingle);
+        assertEquals(0, resultSingle);  // With one query, no waiting time should be added
+
+        // Case where there are multiple queries
+        int[] queriesMultiple = {10, 20, 30};
+        int resultMultiple = MinimumWaitingTime.minimumWaitingTime(queriesMultiple);
+        assertTrue(resultMultiple > 0);  // With multiple queries, waiting time should be positive
     }
 
 }

@@ -21,23 +21,27 @@ public class GaleShapley {
     public static Map<String, String> stableMatch(Map<String, LinkedList<String>> womenPrefs, Map<String, LinkedList<String>> menPrefs) {
         Map<String, String> engagements = new HashMap<>();
         LinkedList<String> freeMen = new LinkedList<>(menPrefs.keySet());
+        int maxIterations = freeMen.size() * womenPrefs.size(); // Upper bound on iterations
 
+        int iterations = 0;
         while (!freeMen.isEmpty()) {
+            if (iterations++ > maxIterations) {
+                throw new IllegalStateException("Algorithm failed to terminate. Check input data for cycles.");
+            }
+
             String man = freeMen.poll();
             LinkedList<String> manPref = menPrefs.get(man);
 
             if (manPref == null || manPref.isEmpty()) {
-                continue;
+                continue; // No preferences, skip to next man
             }
 
             String woman = manPref.poll();
             String fiance = engagements.get(woman);
-
             LinkedList<String> womanPrefList = womenPrefs.get(woman);
 
-            // Skip if the woman has no preferences (null list)
             if (womanPrefList == null) {
-                continue;
+                continue; // No preferences for this woman, skip
             }
 
             if (fiance == null) {
