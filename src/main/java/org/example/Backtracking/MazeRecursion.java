@@ -1,125 +1,37 @@
 package org.example.Backtracking;
 
-/**
- * This class contains methods to solve a maze using recursive backtracking.
- * The maze is represented as a 2D array where walls, paths, and visited/dead
- * ends are marked with different integers.
- *
- * The goal is to find a path from a starting position to the target position
- * (map[6][5]) while navigating through the maze.
- */
-public final class MazeRecursion {
+import java.util.ArrayList;
 
-    private MazeRecursion() {
+public class MazeRecursion {
+
+    static String direction = "DLRU";
+    static int[] dr = {1, 0, 0, -1};
+    static int[] dc = {0, -1, 1, 0};
+
+    static boolean isValid(int row, int col, int n, int[][] maze) {
+        return row >= 0 && col >= 0 && row < n && col < n && maze[row][col] == 1;
     }
 
-    /**
-     * This method solves the maze using the "down -> right -> up -> left"
-     * movement strategy.
-     *
-     * @param map The 2D array representing the maze (walls, paths, etc.)
-     * @return The solved maze with paths marked, or null if no solution exists.
-     */
-    public static int[][] solveMazeUsingFirstStrategy(int[][] map) {
-        if (setWay(map, 1, 1)) {
-            return map;
+    static void findPath(int row, int col, int[][] maze, int n, ArrayList<String> ans, StringBuilder currentPath) {
+        if (!isValid(row, col, n, maze)) {
+            return; // Return immediately if the start position is invalid
         }
-        return null;
+        if (row == n - 1 && col == n - 1) {
+            ans.add(currentPath.toString());
+            return;
+        }
+        maze[row][col] = 0;
+
+        for (int i = 0; i < 4; i++) {
+            int nextRow = row + dr[i];
+            int nextCol = col + dc[i];
+            if (isValid(nextRow, nextCol, n, maze)) {
+                currentPath.append(direction.charAt(i));
+                findPath(nextRow, nextCol, maze, n, ans, currentPath);
+                currentPath.deleteCharAt(currentPath.length() - 1);
+            }
+        }
+        maze[row][col] = 1;
     }
 
-    /**
-     * This method solves the maze using the "up -> right -> down -> left"
-     * movement strategy.
-     *
-     * @param map The 2D array representing the maze (walls, paths, etc.)
-     * @return The solved maze with paths marked, or null if no solution exists.
-     */
-    public static int[][] solveMazeUsingSecondStrategy(int[][] map) {
-        if (setWay2(map, 1, 1)) {
-            return map;
-        }
-        return null;
-    }
-
-    /**
-     * Attempts to find a path through the maze using a "down -> right -> up -> left"
-     * movement strategy. The path is marked with '2' for valid paths and '3' for dead ends.
-     *
-     * @param map The 2D array representing the maze (walls, paths, etc.)
-     * @param i   The current x-coordinate of the ball (row index)
-     * @param j   The current y-coordinate of the ball (column index)
-     * @return True if a path is found to (6,5), otherwise false
-     */
-    private static boolean setWay(int[][] map, int i, int j) {
-        if (map[6][5] == 2) {
-            return true;
-        }
-
-        // If the current position is unvisited (0), explore it
-        if (map[i][j] == 0) {
-            // Mark the current position as '2'
-            map[i][j] = 2;
-
-            // Move down
-            if (setWay(map, i + 1, j)) {
-                return true;
-            }
-            // Move right
-            else if (setWay(map, i, j + 1)) {
-                return true;
-            }
-            // Move up
-            else if (setWay(map, i - 1, j)) {
-                return true;
-            }
-            // Move left
-            else if (setWay(map, i, j - 1)) {
-                return true;
-            }
-
-            map[i][j] = 3; // Mark as dead end (3) if no direction worked
-            return false;
-        }
-        return false;
-    }
-
-    /**
-     * Attempts to find a path through the maze using an alternative movement
-     * strategy "up -> right -> down -> left".
-     *
-     * @param map The 2D array representing the maze (walls, paths, etc.)
-     * @param i   The current x-coordinate of the ball (row index)
-     * @param j   The current y-coordinate of the ball (column index)
-     * @return True if a path is found to (6,5), otherwise false
-     */
-    private static boolean setWay2(int[][] map, int i, int j) {
-        if (map[6][5] == 2) {
-            return true;
-        }
-
-        if (map[i][j] == 0) {
-            map[i][j] = 2;
-
-            // Move up
-            if (setWay2(map, i - 1, j)) {
-                return true;
-            }
-            // Move right
-            else if (setWay2(map, i, j + 1)) {
-                return true;
-            }
-            // Move down
-            else if (setWay2(map, i + 1, j)) {
-                return true;
-            }
-            // Move left
-            else if (setWay2(map, i, j - 1)) {
-                return true;
-            }
-
-            map[i][j] = 3; // Mark as dead end (3) if no direction worked
-            return false;
-        }
-        return false;
-    }
 }

@@ -6,13 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="aca16722-6cbb-4b6a-9bc1-30f5f5e407a5" name="Changes" comment="added greedy test files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/GaleShapley.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/GaleShapley.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/KCenters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GreedyAlgorithms/KCenters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/SubsequenceFinderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/Backtracking/SubsequenceFinderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/ActivitySelectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/ActivitySelectionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/GaleShapleyTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/GaleShapleyTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/KCentersTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/KCentersTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/MinimumWaitingTimeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/GreedyAlgorithmsTest/MinimumWaitingTimeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +94,6 @@
       <workItem from="1732430290004" duration="8230000" />
       <workItem from="1732469418981" duration="8980000" />
       <workItem from="1732507134179" duration="11419000" />
-      <workItem from="1732606403559" duration="1213000" />
     </task>
     <task id="LOCAL-00001" summary="added greedy test files">
       <option name="closed" value="true" />

@@ -1,6 +1,7 @@
 package org.example.Sorting;
 
 import java.util.Arrays;
+
 public class RadixSort {
 
     public static void radixSort(int[] arr) {
@@ -22,4 +23,3 @@ public class RadixSort {
         System.arraycopy(output, 0, arr, 0, n);
     }
 }
-
